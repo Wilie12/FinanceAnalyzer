@@ -1,4 +1,4 @@
-package com.example.financeanalyzer
+package com.example.financeanalyzer.feature_finance.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -18,13 +18,18 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.financeanalyzer.ui.theme.FinanceAnalyzerTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             FinanceAnalyzerTheme {
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colors.background
+                ) {
 
                 }
             }
