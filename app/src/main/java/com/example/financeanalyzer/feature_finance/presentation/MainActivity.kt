@@ -1,6 +1,7 @@
 package com.example.financeanalyzer.feature_finance.presentation
 
 import android.os.Bundle
+import android.widget.DatePicker
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -17,6 +18,7 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.financeanalyzer.feature_finance.presentation.main_screen.MainScreen
 import com.example.financeanalyzer.ui.theme.FinanceAnalyzerTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,7 +32,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-
+                    MainScreen()
                 }
             }
         }

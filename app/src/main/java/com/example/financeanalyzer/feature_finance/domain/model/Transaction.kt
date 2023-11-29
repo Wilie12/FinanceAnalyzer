@@ -3,7 +3,7 @@ package com.example.financeanalyzer.feature_finance.domain.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "transaction")
+@Entity(tableName = "transaction_table")
 data class Transaction(
     @PrimaryKey(autoGenerate = true)
     val id: Int,

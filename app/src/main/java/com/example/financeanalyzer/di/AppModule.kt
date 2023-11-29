@@ -2,8 +2,9 @@ package com.example.financeanalyzer.di
 
 import android.app.Application
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.example.financeanalyzer.feature_finance.data.data_source.FinanceDatabase
+import com.example.financeanalyzer.feature_finance.data.repository.FinanceRepositoryImpl
+import com.example.financeanalyzer.feature_finance.domain.repository.FinanceRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,5 +23,11 @@ object AppModule {
             FinanceDatabase::class.java,
             FinanceDatabase.DATABASE_NAME
         ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFinanceRepository(db: FinanceDatabase): FinanceRepository {
+        return FinanceRepositoryImpl(db.financeDao)
     }
 }
