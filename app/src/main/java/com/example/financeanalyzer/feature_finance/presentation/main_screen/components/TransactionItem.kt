@@ -14,11 +14,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.financeanalyzer.feature_finance.domain.model.Transaction
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Composable
 fun TransactionItem(
     transaction: Transaction
 ) {
+
+    val sdf = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+    val date = sdf.format(transaction.date)
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -42,11 +47,13 @@ fun TransactionItem(
                     )
                     .padding(8.dp)
             ) {
-                Icon(painter = painterResource(
-                    id = transaction.category.icon),
+                Icon(
+                    painter = painterResource(
+                        id = transaction.category.icon
+                    ),
                     contentDescription = transaction.category.name,
                     tint = Color.White,
-                    modifier = Modifier.size(50.dp)
+                    modifier = Modifier.size(30.dp)
                 )
             }
             Spacer(modifier = Modifier.width(8.dp))
@@ -54,12 +61,12 @@ fun TransactionItem(
                 Text(
                     text = transaction.category.name,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 24.sp,
+                    fontSize = 20.sp,
                     color = Color.Black
                 )
                 Text(
-                    text = transaction.date.toString(),
-                    fontSize = 18.sp,
+                    text = date,
+                    fontSize = 16.sp,
                     color = Color.Gray
                 )
             }
@@ -67,7 +74,7 @@ fun TransactionItem(
         Text(
             text = "${if (transaction.transactionType == Transaction.TYPE_EXPENSE) "-" else "+"}${transaction.value}zł",
             fontWeight = FontWeight.Bold,
-            fontSize = 24.sp,
+            fontSize = 20.sp,
             color = if (transaction.transactionType == Transaction.TYPE_EXPENSE) Color.Red else Color.Green
         )
     }

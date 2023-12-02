@@ -8,8 +8,8 @@ class FinanceRepositoryImpl(
     private val financeDao: FinanceDao
 ): FinanceRepository {
 
-    override suspend fun getAllTransactionsFromCurrentMonth(): List<Transaction> {
-        return financeDao.getAllTransactionsFromCurrentMonth()
+    override suspend fun getAllTransactionsFromCurrentMonth(firstDayOfMonth: Long): List<Transaction> {
+        return financeDao.getAllTransactionsFromCurrentMonth(firstDayOfMonth)
     }
 
     override suspend fun addTransaction(transaction: Transaction) {

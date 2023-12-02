@@ -8,8 +8,8 @@ import com.example.financeanalyzer.feature_finance.domain.model.Transaction
 @Dao
 interface FinanceDao {
 
-    @Query("SELECT * FROM transaction_table")
-    suspend fun getAllTransactionsFromCurrentMonth(): List<Transaction>
+    @Query("SELECT * FROM transaction_table WHERE date >= :firstDayOfMonth")
+    suspend fun getAllTransactionsFromCurrentMonth(firstDayOfMonth: Long): List<Transaction>
 
     @Insert
     suspend fun addTransaction(transaction: Transaction)
