@@ -9,8 +9,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.financeanalyzer.R
 import com.example.financeanalyzer.feature_finance.presentation.main_screen.components.FinanceArc
 import com.example.financeanalyzer.feature_finance.presentation.main_screen.components.TransactionItem
+import java.math.RoundingMode
 
 @Composable
 fun MainScreen(
@@ -57,12 +56,7 @@ fun MainScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(
-                        brush = Brush.verticalGradient(
-                            listOf(
-                                Color(0xFF00f2fe),
-                                Color(0xFF4facfe)
-                            )
-                        ),
+                        color = Color(0xFF87CEEB),
                         shape = RoundedCornerShape(32.dp)
                     )
                     .padding(16.dp)
@@ -90,7 +84,7 @@ fun MainScreen(
                             fontSize = 16.sp
                         )
                         Text(
-                            text = "-${expense.value}zł",
+                            text = "-${expense.value.toBigDecimal().setScale(2, RoundingMode.HALF_DOWN)}zł",
                             color = Color.White,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold
@@ -103,7 +97,7 @@ fun MainScreen(
                             fontSize = 16.sp
                         )
                         Text(
-                            text = "${income.value}zł",
+                            text = "${income.value.toBigDecimal().setScale(2, RoundingMode.HALF_DOWN)}zł",
                             color = Color.White,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold

@@ -67,7 +67,7 @@ fun FinanceArc(
                 )
             )
             drawArc(
-                color = Color(0xFF00FF99),
+                color = Color(0xFF98FB98),
                 startAngle = -205f,
                 sweepAngle = 230f * percValue.value,
                 useCenter = false,
