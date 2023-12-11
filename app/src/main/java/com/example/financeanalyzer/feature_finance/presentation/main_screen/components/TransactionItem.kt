@@ -1,6 +1,8 @@
 package com.example.financeanalyzer.feature_finance.presentation.main_screen.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
@@ -8,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -32,27 +35,29 @@ fun TransactionItem(
             .fillMaxWidth()
             .background(
                 color = Color.White,
-                shape = RoundedCornerShape(15.dp)
+                shape = RoundedCornerShape(16.dp)
             )
-            .padding(16.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .clickable {  }
     ) {
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
-                    .background(
+                    .border(
+                        width = 2.dp,
                         color = transaction.category.color,
-                        shape = RoundedCornerShape(15.dp)
+                        shape = RoundedCornerShape(22.dp)
                     )
-                    .padding(8.dp)
+                    .padding(10.dp)
             ) {
                 Icon(
                     painter = painterResource(
                         id = transaction.category.icon
                     ),
                     contentDescription = transaction.category.name,
-                    tint = Color.White,
+                    tint = transaction.category.color,
                     modifier = Modifier.size(30.dp)
                 )
             }
@@ -60,7 +65,6 @@ fun TransactionItem(
             Column {
                 Text(
                     text = transaction.category.name,
-                    fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
                     color = Color.Black
                 )
@@ -73,9 +77,8 @@ fun TransactionItem(
         }
         Text(
             text = "${if (transaction.transactionType == Transaction.TYPE_EXPENSE) "-" else "+"}${transaction.value}zł",
-            fontWeight = FontWeight.Bold,
             fontSize = 20.sp,
-            color = if (transaction.transactionType == Transaction.TYPE_EXPENSE) Color.Red else Color.Green
+            color = Color.Black
         )
     }
 }

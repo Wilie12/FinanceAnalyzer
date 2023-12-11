@@ -3,14 +3,12 @@ package com.example.financeanalyzer.feature_finance.domain.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "transaction_table")
-data class Transaction(
+@Entity(tableName = "constant_transaction_table")
+data class ConstantTransaction(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
-    val date: Long,
-    val category: TransactionCategory,
-    val value: Float,
     val name: String,
+    val value: Float,
     val transactionType: Int
 ) {
 

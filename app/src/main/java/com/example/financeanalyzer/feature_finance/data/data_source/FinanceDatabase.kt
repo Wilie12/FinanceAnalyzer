@@ -4,11 +4,11 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.financeanalyzer.feature_finance.data.util.Converters
-import com.example.financeanalyzer.feature_finance.domain.model.ConstantIncome
+import com.example.financeanalyzer.feature_finance.domain.model.ConstantTransaction
 import com.example.financeanalyzer.feature_finance.domain.model.Transaction
 
 @Database(
-    entities = [Transaction::class, ConstantIncome::class],
+    entities = [Transaction::class, ConstantTransaction::class],
     version = 1,
     exportSchema = false
 )
