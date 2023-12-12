@@ -47,8 +47,8 @@ fun FinanceArc(
         )
     )
 
-    LaunchedEffect(key1 = value) {
-        if (value > 0f) animationPlayed = true
+    LaunchedEffect(true) {
+        animationPlayed = true
     }
     Box {
         Canvas(

@@ -2,6 +2,7 @@ package com.example.financeanalyzer.feature_finance.domain.repository
 
 import com.example.financeanalyzer.feature_finance.domain.model.ConstantTransaction
 import com.example.financeanalyzer.feature_finance.domain.model.Transaction
+import kotlinx.coroutines.flow.Flow
 
 interface FinanceRepository {
 

@@ -7,47 +7,48 @@ import androidx.lifecycle.viewModelScope
 import com.example.financeanalyzer.feature_finance.data.util.Constants
 import com.example.financeanalyzer.feature_finance.domain.model.ConstantTransaction
 import com.example.financeanalyzer.feature_finance.domain.model.Transaction
-import com.example.financeanalyzer.feature_finance.domain.repository.FinanceRepository
+import com.example.financeanalyzer.feature_finance.domain.use_case.TransactionUseCases
 import com.example.financeanalyzer.feature_finance.presentation.util.parseIntToMonthString
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val financeRepository: FinanceRepository
+    private val transactionUseCases: TransactionUseCases
 ) : ViewModel() {
 
-    private var _income = mutableStateOf(0f)
-    val income: State<Float> = _income
-    private var _expense = mutableStateOf(0f)
-    val expense: State<Float> = _expense
-
-    private var _listOfTransactionsFromCurrentMonthState = mutableStateOf<List<Transaction>>(emptyList())
-    val listOfTransactionsFromCurrentMonthState: State<List<Transaction>> = _listOfTransactionsFromCurrentMonthState
+    private val _state = mutableStateOf(MainState())
+    val state: State<MainState> = _state
 
     private var _currentMonth = mutableStateOf("")
     val currentMonth: State<String> = _currentMonth
 
     init {
-        getTransactionsFromCurrentMonth()
+        getTransactions()
+        getCurrentMonth()
     }
 
-    private fun getTransactionsFromCurrentMonth() {
-        runBlocking {
+    private fun getTransactions() {
 
-            val firstDayOfMonth = getFirstDayOfTheMonthInMillis()
-            val listOfTransactions =
-                financeRepository.getAllTransactionsFromCurrentMonth(firstDayOfMonth)
-            val listOfConstantTransactions = financeRepository.getAllConstantTransactions()
+        viewModelScope.launch {
+            _state.value = state.value.copy(isLoading = true)
 
-            getIncomeAndExpenseFromCurrentMonth(listOfTransactions, listOfConstantTransactions)
+            val job = viewModelScope.launch {
+                getTransactionsFromCurrentMonth()
+                getConstantTransactions()
+            }
 
-            _listOfTransactionsFromCurrentMonthState.value = listOfTransactions
+            job.join()
+
+            getIncomeAndExpenseFromCurrentMonth()
+
+            _state.value = state.value.copy(isLoading = false)
         }
-        getCurrentMonth()
     }
 
     fun addTransactionTEST() {
@@ -64,18 +65,14 @@ class MainViewModel @Inject constructor(
             val transaction2 = Transaction(
                 0,
                 1701791600000,
-                Constants.transactionCategories[5],
-                1324.77f,
+                Constants.transactionCategories[7],
+                12324.77f,
                 "Cash",
                 Transaction.TYPE_INCOME
             )
 
-            financeRepository.addTransaction(transaction)
-            financeRepository.addTransaction(transaction2)
-            financeRepository.addTransaction(transaction)
-            financeRepository.addTransaction(transaction2)
-            financeRepository.addTransaction(transaction)
-            financeRepository.addTransaction(transaction2)
+//            financeRepository.addTransaction(transaction2)
+
         }
     }
 
@@ -97,10 +94,11 @@ class MainViewModel @Inject constructor(
         _currentMonth.value = parseIntToMonthString(c.get(Calendar.MONTH))
     }
 
-    private fun getIncomeAndExpenseFromCurrentMonth(
-        transactions: List<Transaction>,
-        constantTransactions: List<ConstantTransaction>
-    ) {
+    private fun getIncomeAndExpenseFromCurrentMonth() {
+
+        val transactions = state.value.transactions
+        val constantTransactions = state.value.constantTransactions
+
         var income = 0f
         var expense = 0f
 
@@ -119,7 +117,27 @@ class MainViewModel @Inject constructor(
                 }
             }
 
-        _expense.value = expense
-        _income.value = income
+        _state.value = state.value.copy(
+            expense = expense,
+            income = income
+        )
+
+    }
+
+    private suspend fun getTransactionsFromCurrentMonth() {
+
+        val firstDayOfMonth = getFirstDayOfTheMonthInMillis()
+
+        val transactions = transactionUseCases.getTransactions(firstDayOfMonth)
+
+        _state.value = state.value.copy(transactions = transactions)
+    }
+
+    private suspend fun getConstantTransactions() {
+
+        val constantTransactions = transactionUseCases.getConstantTransactions()
+
+        _state.value = state.value.copy(constantTransactions = constantTransactions)
+
     }
 }

@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.financeanalyzer.feature_finance.domain.model.Transaction
@@ -48,6 +47,7 @@ fun TransactionItem(
                     .border(
                         width = 2.dp,
                         color = transaction.category.color,
+//                        color = Color(0xFF87CEEB),
                         shape = RoundedCornerShape(22.dp)
                     )
                     .padding(10.dp)
@@ -58,6 +58,7 @@ fun TransactionItem(
                     ),
                     contentDescription = transaction.category.name,
                     tint = transaction.category.color,
+//                    tint = Color(0xFF87CEEB),
                     modifier = Modifier.size(30.dp)
                 )
             }

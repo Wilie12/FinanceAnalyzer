@@ -4,6 +4,7 @@ import com.example.financeanalyzer.feature_finance.data.data_source.FinanceDao
 import com.example.financeanalyzer.feature_finance.domain.model.ConstantTransaction
 import com.example.financeanalyzer.feature_finance.domain.model.Transaction
 import com.example.financeanalyzer.feature_finance.domain.repository.FinanceRepository
+import kotlinx.coroutines.flow.Flow
 
 class FinanceRepositoryImpl(
     private val financeDao: FinanceDao
