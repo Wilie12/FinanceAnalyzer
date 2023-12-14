@@ -18,16 +18,21 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.financeanalyzer.R
 import com.example.financeanalyzer.feature_finance.presentation.main_screen.components.FinanceArc
+import com.example.financeanalyzer.feature_finance.presentation.main_screen.components.TextWithValue
 import com.example.financeanalyzer.feature_finance.presentation.main_screen.components.TransactionItem
+import com.example.financeanalyzer.feature_finance.presentation.util.Screen
 import java.math.RoundingMode
 
 @Composable
 fun MainScreen(
+    navController: NavController,
     viewModel: MainViewModel = hiltViewModel()
 ) {
 
@@ -45,7 +50,7 @@ fun MainScreen(
                     .align(Alignment.TopCenter)
             ) {
                 Text(
-                    text = viewModel.currentMonth.value,
+                    text = "Finance Analyzer",
                     fontSize = 22.sp,
                     color = Color.Black
                 )
@@ -61,6 +66,15 @@ fun MainScreen(
                         )
                         .padding(16.dp)
                 ) {
+                    Row(modifier = Modifier.fillMaxWidth()) {
+                        Text(
+                            text = viewModel.currentMonth.value,
+                            fontSize = 20.sp,
+                            color = Color.White,
+                            textAlign = TextAlign.Start
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
                     FinanceArc(
                         maxValue = state.income,
                         value = state.income - state.expense
@@ -77,45 +91,25 @@ fun MainScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Column {
-                            Text(
-                                text = "Wydatki",
-                                color = Color.White,
-                                fontSize = 16.sp
-                            )
-                            Text(
-                                text = "-${
-                                    state.expense.toBigDecimal().setScale(2, RoundingMode.HALF_DOWN)
-                                }zł",
-                                color = Color.White,
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
-                        Column {
-                            Text(
-                                text = "Przychody",
-                                color = Color.White,
-                                fontSize = 16.sp
-                            )
-                            Text(
-                                text = "${
-                                    state.income.toBigDecimal().setScale(2, RoundingMode.HALF_DOWN)
-                                }zł",
-                                color = Color.White,
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
+                        TextWithValue(
+                            text = "Wydatki",
+                            value = state.expense,
+                            isPositive = false
+                        )
+                        TextWithValue(
+                            text = "Przychody",
+                            value = state.income,
+                            isPositive = true
+                        )
                     }
                 }
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "Ostatnie",
                     color = Color.Black,
                     fontSize = 22.sp
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
@@ -123,7 +117,7 @@ fun MainScreen(
                         TransactionItem(transaction = transaction)
                     }
                     item {
-                        Spacer(modifier = Modifier.height(70.dp))
+                        Spacer(modifier = Modifier.height(60.dp))
                     }
                 }
             }
@@ -143,18 +137,20 @@ fun MainScreen(
                     contentDescription = "Expenses",
                     tint = Color.White,
                     modifier = Modifier
-                        .size(50.dp)
+                        .size(40.dp)
                         .rotate(180f)
                         .weight(4f)
                         .clip(RoundedCornerShape(32.dp))
-                        .clickable { }
+                        .clickable {
+                            navController.navigate(Screen.IncomeScreen.route)
+                        }
                 )
                 Icon(
                     painter = painterResource(id = R.drawable.ic_analize),
                     contentDescription = "Analyze",
                     tint = Color(0xFF6082B6),
                     modifier = Modifier
-                        .size(50.dp)
+                        .size(40.dp)
                         .background(
                             color = Color.White,
                             shape = RoundedCornerShape(32.dp)
@@ -169,10 +165,12 @@ fun MainScreen(
                     contentDescription = "Incomes",
                     tint = Color.White,
                     modifier = Modifier
-                        .size(50.dp)
+                        .size(40.dp)
                         .weight(4f)
                         .clip(RoundedCornerShape(32.dp))
-                        .clickable { }
+                        .clickable {
+                            navController.navigate(Screen.ExpenseScreen.route)
+                        }
                 )
             }
         } else {

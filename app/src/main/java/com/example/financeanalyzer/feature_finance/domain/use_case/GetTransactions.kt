@@ -2,7 +2,6 @@ package com.example.financeanalyzer.feature_finance.domain.use_case
 
 import com.example.financeanalyzer.feature_finance.domain.model.Transaction
 import com.example.financeanalyzer.feature_finance.domain.repository.FinanceRepository
-import kotlinx.coroutines.flow.Flow
 
 class GetTransactions(
     private val repository: FinanceRepository

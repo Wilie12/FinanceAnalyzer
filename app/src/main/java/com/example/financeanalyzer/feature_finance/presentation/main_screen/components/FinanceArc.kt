@@ -31,7 +31,7 @@ fun FinanceArc(
     val percentage by remember { mutableStateOf(value / maxValue) }
     var animationPlayed by remember { mutableStateOf(false) }
     var percValue = animateFloatAsState(
-        targetValue = if (animationPlayed) percentage else 0f,
+        targetValue = if (animationPlayed) percentage else 1f,
         animationSpec = tween(
             durationMillis = 500,
             delayMillis = 500,
@@ -39,7 +39,7 @@ fun FinanceArc(
         )
     )
     var valueAnim = animateFloatAsState(
-        targetValue = if (animationPlayed) value else 0f,
+        targetValue = if (animationPlayed) value else maxValue,
         animationSpec = tween(
             durationMillis = 500,
             delayMillis = 500,

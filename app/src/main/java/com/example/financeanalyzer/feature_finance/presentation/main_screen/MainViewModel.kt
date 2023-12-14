@@ -5,14 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.financeanalyzer.feature_finance.data.util.Constants
-import com.example.financeanalyzer.feature_finance.domain.model.ConstantTransaction
 import com.example.financeanalyzer.feature_finance.domain.model.Transaction
 import com.example.financeanalyzer.feature_finance.domain.use_case.TransactionUseCases
 import com.example.financeanalyzer.feature_finance.presentation.util.parseIntToMonthString
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
@@ -138,6 +134,5 @@ class MainViewModel @Inject constructor(
         val constantTransactions = transactionUseCases.getConstantTransactions()
 
         _state.value = state.value.copy(constantTransactions = constantTransactions)
-
     }
 }

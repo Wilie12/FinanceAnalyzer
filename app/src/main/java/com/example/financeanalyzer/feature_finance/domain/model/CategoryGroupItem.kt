@@ -3,17 +3,11 @@ package com.example.financeanalyzer.feature_finance.domain.model
 import androidx.annotation.DrawableRes
 import androidx.compose.ui.graphics.Color
 
-data class TransactionCategory(
-    val id: Int,
+data class CategoryGroupItem(
+    val categoryId: Int,
     val name: String,
+    val color: Color,
     @DrawableRes
     val icon: Int,
-    val color: Color,
-    val transactionType: Int
-) {
-
-    companion object {
-        const val TYPE_INCOME = 1
-        const val TYPE_EXPENSE = 2
-    }
-}
+    val value: Float
+)
