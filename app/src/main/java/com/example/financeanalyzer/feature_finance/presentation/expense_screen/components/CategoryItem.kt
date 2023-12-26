@@ -1,4 +1,4 @@
-package com.example.financeanalyzer.feature_finance.presentation.expense_screen
+package com.example.financeanalyzer.feature_finance.presentation.expense_screen.components
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.financeanalyzer.feature_finance.domain.model.CategoryGroupItem
 import com.example.financeanalyzer.R
+import com.example.financeanalyzer.feature_finance.data.util.Constants
 
 @Composable
 fun CategoryItem(
@@ -28,7 +29,7 @@ fun CategoryItem(
             .fillMaxWidth()
             .border(
                 width = 2.dp,
-                color = categoryGroupItem.color,
+                color = categoryGroupItem.category.color,
                 shape = RoundedCornerShape(32.dp)
             )
             .clip(RoundedCornerShape(32.dp))
@@ -41,14 +42,16 @@ fun CategoryItem(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                text = categoryGroupItem.name,
+                text = categoryGroupItem.category.name,
                 fontSize = 18.sp,
                 color = Color.Black
             )
             Icon(
-                painter = painterResource(id = categoryGroupItem.icon),
-                contentDescription = categoryGroupItem.name,
-                tint = categoryGroupItem.color,
+                painter = painterResource(
+                    id = Constants.transactionCategories[categoryGroupItem.category.id].icon
+                ),
+                contentDescription = categoryGroupItem.category.name,
+                tint = categoryGroupItem.category.color,
                 modifier = Modifier.size(30.dp)
             )
         }

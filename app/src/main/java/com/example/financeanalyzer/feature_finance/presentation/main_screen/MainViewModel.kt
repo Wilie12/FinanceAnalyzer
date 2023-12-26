@@ -53,7 +53,7 @@ class MainViewModel @Inject constructor(
             val transaction = Transaction(
                 0,
                 1701491600000,
-                Constants.transactionCategories[4],
+                Constants.transactionCategories[6],
                 1324.77f,
                 "Shopping",
                 Transaction.TYPE_EXPENSE
@@ -62,9 +62,9 @@ class MainViewModel @Inject constructor(
                 0,
                 1701791600000,
                 Constants.transactionCategories[7],
-                12324.77f,
+                2324.77f,
                 "Cash",
-                Transaction.TYPE_INCOME
+                Transaction.TYPE_EXPENSE
             )
 
 //            financeRepository.addTransaction(transaction2)

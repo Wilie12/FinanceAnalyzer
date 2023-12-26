@@ -1,5 +1,8 @@
 package com.example.financeanalyzer.feature_finance.presentation.main_screen
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -28,6 +31,7 @@ import com.example.financeanalyzer.feature_finance.presentation.main_screen.comp
 import com.example.financeanalyzer.feature_finance.presentation.main_screen.components.TextWithValue
 import com.example.financeanalyzer.feature_finance.presentation.main_screen.components.TransactionItem
 import com.example.financeanalyzer.feature_finance.presentation.util.Screen
+import kotlinx.coroutines.delay
 import java.math.RoundingMode
 
 @Composable
@@ -37,6 +41,7 @@ fun MainScreen(
 ) {
 
     val state = viewModel.state.value
+    var animationPlayed by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -111,7 +116,15 @@ fun MainScreen(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    modifier = Modifier
+                        .animateContentSize(
+                            animationSpec = tween(
+                                durationMillis = 500,
+                                easing = LinearEasing
+                            )
+                        )
+                        .fillMaxHeight(if (animationPlayed) 1f else 0f)
                 ) {
                     items(state.transactions) { transaction ->
                         TransactionItem(transaction = transaction)
@@ -178,6 +191,11 @@ fun MainScreen(
                 color = Color(0xFF6082B6),
                 modifier = Modifier.align(Alignment.Center)
             )
+        }
+    }
+    LaunchedEffect(key1 = viewModel.state.value.isLoading) {
+        if (!viewModel.state.value.isLoading) {
+            animationPlayed = true
         }
     }
 }

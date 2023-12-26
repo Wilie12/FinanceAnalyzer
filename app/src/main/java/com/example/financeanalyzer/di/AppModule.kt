@@ -33,13 +33,4 @@ object AppModule {
     fun provideFinanceRepository(db: FinanceDatabase): FinanceRepository {
         return FinanceRepositoryImpl(db.financeDao)
     }
-
-    @Provides
-    @Singleton
-    fun provideTransactionUseCases(repository: FinanceRepository): TransactionUseCases {
-        return TransactionUseCases(
-            getTransactions = GetTransactions(repository),
-            getConstantTransactions = GetConstantTransactions(repository)
-        )
-    }
 }

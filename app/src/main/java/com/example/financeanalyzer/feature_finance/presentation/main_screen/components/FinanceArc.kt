@@ -34,7 +34,6 @@ fun FinanceArc(
         targetValue = if (animationPlayed) percentage else 1f,
         animationSpec = tween(
             durationMillis = 500,
-            delayMillis = 500,
             easing = LinearEasing
         )
     )
@@ -42,7 +41,6 @@ fun FinanceArc(
         targetValue = if (animationPlayed) value else maxValue,
         animationSpec = tween(
             durationMillis = 500,
-            delayMillis = 500,
             easing = LinearEasing
         )
     )

@@ -1,5 +1,9 @@
 package com.example.financeanalyzer.feature_finance.presentation.expense_screen
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -12,7 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,41 +26,33 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.financeanalyzer.R
-import com.example.financeanalyzer.feature_finance.data.util.Constants
-import com.example.financeanalyzer.feature_finance.domain.model.CategoryGroupItem
+import com.example.financeanalyzer.feature_finance.presentation.expense_screen.components.CategoryItem
 import com.example.financeanalyzer.feature_finance.presentation.main_screen.components.TextWithValue
+import java.math.RoundingMode
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ExpenseScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: ExpenseViewModel = hiltViewModel()
 ) {
 
-    val list = listOf(
-        CategoryGroupItem(
-            categoryId = 0,
-            name = Constants.transactionCategories[0].name,
-            color = Constants.transactionCategories[0].color,
-            icon = Constants.transactionCategories[0].icon,
-            value = 3213.33f
-        ),
-        CategoryGroupItem(
-            categoryId = 1,
-            name = Constants.transactionCategories[1].name,
-            color = Constants.transactionCategories[1].color,
-            icon = Constants.transactionCategories[1].icon,
-            value = 2213.33f
-        ),
-        CategoryGroupItem(
-            categoryId = 2,
-            name = Constants.transactionCategories[2].name,
-            color = Constants.transactionCategories[2].color,
-            icon = Constants.transactionCategories[2].icon,
-            value = 1413.33f
-        ),
+    var animationPlayed by remember { mutableStateOf(false) }
+    val animatedExpense by animateFloatAsState(
+        targetValue = if (animationPlayed) {
+             (viewModel.state.value.normalExpense + viewModel.state.value.constantExpense)
+        } else 0f,
+        animationSpec = tween(
+            durationMillis = 500,
+            easing = LinearEasing
+        )
     )
+    LaunchedEffect(key1 = true) {
+        animationPlayed = true
+    }
 
     Box(
         modifier = Modifier
@@ -101,12 +97,12 @@ fun ExpenseScreen(
                     .padding(16.dp)
             ) {
                 Text(
-                    text = "Miesiąc",
+                    text = viewModel.currentMonth.value,
                     fontSize = 20.sp,
                     color = Color.White
                 )
                 Text(
-                    text = "-777777.77zł",
+                    text = "-${animatedExpense.toBigDecimal().setScale(2, RoundingMode.HALF_DOWN)}zł",
                     fontSize = 40.sp,
                     color = Color.White,
                     fontWeight = FontWeight.Bold
@@ -125,12 +121,12 @@ fun ExpenseScreen(
                 ) {
                     TextWithValue(
                         text = "Stałe",
-                        value = 3542.62f,
+                        value = viewModel.state.value.constantExpense,
                         isPositive = false
                     )
                     TextWithValue(
                         text = "Zwykłe",
-                        value = 7321.32f,
+                        value = viewModel.state.value.normalExpense,
                         isPositive = false
                     )
                 }
@@ -145,9 +141,17 @@ fun ExpenseScreen(
             LazyVerticalGrid(
                 cells = GridCells.Fixed(2),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier
+                    .animateContentSize(
+                        animationSpec = tween(
+                            durationMillis = 500,
+                            easing = LinearEasing
+                        )
+                    )
+                    .fillMaxHeight(if (animationPlayed) 1f else 0f)
             ) {
-                items(list) {
+                items(viewModel.state.value.categoryGroupItems) {
                     CategoryItem(
                         categoryGroupItem = it
                     )
