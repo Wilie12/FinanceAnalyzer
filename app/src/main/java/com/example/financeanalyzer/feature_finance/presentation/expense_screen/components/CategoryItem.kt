@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.financeanalyzer.feature_finance.domain.model.CategoryGroupItem
@@ -44,7 +45,9 @@ fun CategoryItem(
             Text(
                 text = categoryGroupItem.category.name,
                 fontSize = 18.sp,
-                color = Color.Black
+                color = Color.Black,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
             Icon(
                 painter = painterResource(
@@ -62,9 +65,11 @@ fun CategoryItem(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                text = "${categoryGroupItem.value}zł",
+                text = "-${categoryGroupItem.value}zł",
                 fontSize = 22.sp,
-                color = Color.Black
+                color = Color.Black,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
             Icon(
                 painter = painterResource(id = R.drawable.ic_back),

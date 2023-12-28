@@ -17,7 +17,7 @@ interface FinanceDao {
         transactionType: Int
     ): List<CategoryGroupItem>
 
-    @Query("SELECT * FROM transaction_table WHERE date >= :firstDayOfMonth")
+    @Query("SELECT * FROM transaction_table WHERE date >= :firstDayOfMonth ORDER BY date DESC")
     suspend fun getAllTransactionsFromCurrentMonth(firstDayOfMonth: Long): List<Transaction>
 
     @Query("SELECT * FROM constant_transaction_table")
@@ -25,4 +25,7 @@ interface FinanceDao {
 
     @Insert
     suspend fun addTransaction(transaction: Transaction)
+
+    @Insert
+    suspend fun addConstantTransaction(constantTransaction: ConstantTransaction)
 }

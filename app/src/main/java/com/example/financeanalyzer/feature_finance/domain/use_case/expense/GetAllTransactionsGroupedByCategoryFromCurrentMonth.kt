@@ -1,4 +1,4 @@
-package com.example.financeanalyzer.feature_finance.domain.use_case
+package com.example.financeanalyzer.feature_finance.domain.use_case.expense
 
 import com.example.financeanalyzer.feature_finance.domain.model.CategoryGroupItem
 import com.example.financeanalyzer.feature_finance.domain.repository.FinanceRepository

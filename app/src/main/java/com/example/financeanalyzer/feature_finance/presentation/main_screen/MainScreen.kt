@@ -49,7 +49,13 @@ fun MainScreen(
             .background(color = Color.White)
             .padding(16.dp)
     ) {
-        if (!state.isLoading) {
+        if (state.isLoading) {
+            CircularProgressIndicator(
+                color = Color(0xFF6082B6),
+                modifier = Modifier.align(Alignment.Center)
+            )
+        } else {
+
             Column(
                 modifier = Modifier
                     .align(Alignment.TopCenter)
@@ -186,11 +192,6 @@ fun MainScreen(
                         }
                 )
             }
-        } else {
-            CircularProgressIndicator(
-                color = Color(0xFF6082B6),
-                modifier = Modifier.align(Alignment.Center)
-            )
         }
     }
     LaunchedEffect(key1 = viewModel.state.value.isLoading) {

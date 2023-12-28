@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.financeanalyzer.feature_finance.presentation.add_transaction_screen.AddTransactionScreen
 import com.example.financeanalyzer.feature_finance.presentation.expense_screen.ExpenseScreen
 import com.example.financeanalyzer.feature_finance.presentation.income_screen.IncomeScreen
 import com.example.financeanalyzer.feature_finance.presentation.main_screen.MainScreen
@@ -34,13 +35,16 @@ class MainActivity : ComponentActivity() {
                         startDestination = Screen.MainScreen.route
                     ) {
                         composable(Screen.MainScreen.route) {
-                            MainScreen(navController)
+                            MainScreen(navController = navController)
                         }
                         composable(Screen.ExpenseScreen.route) {
-                            ExpenseScreen(navController)
+                            ExpenseScreen(navController = navController)
                         }
                         composable(Screen.IncomeScreen.route) {
-                            IncomeScreen(navController)
+                            IncomeScreen(navController = navController)
+                        }
+                        composable(Screen.AddTransactionScreen.route) {
+                            AddTransactionScreen(navController = navController)
                         }
                     }
                 }

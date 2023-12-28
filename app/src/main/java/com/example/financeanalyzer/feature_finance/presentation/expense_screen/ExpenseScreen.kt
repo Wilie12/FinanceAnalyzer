@@ -8,9 +8,9 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
@@ -31,9 +31,9 @@ import androidx.navigation.NavController
 import com.example.financeanalyzer.R
 import com.example.financeanalyzer.feature_finance.presentation.expense_screen.components.CategoryItem
 import com.example.financeanalyzer.feature_finance.presentation.main_screen.components.TextWithValue
+import com.example.financeanalyzer.feature_finance.presentation.util.Screen
 import java.math.RoundingMode
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ExpenseScreen(
     navController: NavController,
@@ -139,10 +139,11 @@ fun ExpenseScreen(
             )
             Spacer(modifier = Modifier.height(8.dp))
             LazyVerticalGrid(
-                cells = GridCells.Fixed(2),
+                columns = GridCells.Fixed(2),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier
+                    .fillMaxWidth()
                     .animateContentSize(
                         animationSpec = tween(
                             durationMillis = 500,
@@ -171,7 +172,7 @@ fun ExpenseScreen(
                     shape = RoundedCornerShape(32.dp)
                 )
                 .clip(RoundedCornerShape(32.dp))
-                .clickable { }
+                .clickable { navController.navigate(Screen.AddTransactionScreen.route) }
                 .padding(8.dp)
 
         )

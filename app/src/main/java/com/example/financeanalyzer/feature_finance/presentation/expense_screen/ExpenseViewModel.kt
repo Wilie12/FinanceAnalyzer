@@ -5,8 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.financeanalyzer.feature_finance.domain.model.CategoryGroupItem
+import com.example.financeanalyzer.feature_finance.domain.model.ConstantTransaction
 import com.example.financeanalyzer.feature_finance.domain.model.Transaction
-import com.example.financeanalyzer.feature_finance.domain.use_case.ExpenseUseCases
+import com.example.financeanalyzer.feature_finance.domain.use_case.expense.ExpenseUseCases
 import com.example.financeanalyzer.feature_finance.presentation.util.parseIntToMonthString
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -35,18 +36,6 @@ class ExpenseViewModel @Inject constructor(
         _currentMonth.value = parseIntToMonthString(c.get(Calendar.MONTH))
     }
 
-    private fun getFirstDayOfTheMonthInMillis(): Long {
-        val c = Calendar.getInstance()
-        c.set(Calendar.HOUR_OF_DAY, 0)
-        c.clear(Calendar.MINUTE)
-        c.clear(Calendar.SECOND)
-        c.clear(Calendar.MILLISECOND)
-
-        c.set(Calendar.DAY_OF_MONTH, 1)
-
-        return c.timeInMillis
-    }
-
     private fun getExpenses() {
         viewModelScope.launch {
 
@@ -68,19 +57,10 @@ class ExpenseViewModel @Inject constructor(
         val constantTransactions = expenseUseCases.getConstantTransactions()
         val listOfCategoryExpenses = state.value.categoryGroupItems
 
-        var normalExpense = 0f
-        var constantExpense = 0f
-
-        listOfCategoryExpenses
-            .forEach { categoryGroupItem ->
-                normalExpense += categoryGroupItem.value
-            }
-        constantTransactions
-            .forEach { constantTransaction ->
-                when (constantTransaction.transactionType) {
-                    Transaction.TYPE_EXPENSE -> constantExpense += constantTransaction.value
-                }
-            }
+        val normalExpense = listOfCategoryExpenses.sumOf { it.value.toDouble() }.toFloat()
+        val constantExpense = constantTransactions
+            .filter { it.transactionType == ConstantTransaction.TYPE_EXPENSE }
+            .sumOf { it.value.toDouble() }.toFloat()
 
         _state.value = state.value.copy(
             normalExpense = normalExpense,
@@ -93,7 +73,7 @@ class ExpenseViewModel @Inject constructor(
 
         val listOfCategoryExpenses = mutableListOf<CategoryGroupItem>()
 
-        val firstDayOfMonth = getFirstDayOfTheMonthInMillis()
+        val firstDayOfMonth = expenseUseCases.getFirstDayOfTheMonthInMillis()
 
         expenseUseCases.getAllTransactionsGroupedByCategoryFromCurrentMonth(
             firstDayOfMonth, Transaction.TYPE_EXPENSE

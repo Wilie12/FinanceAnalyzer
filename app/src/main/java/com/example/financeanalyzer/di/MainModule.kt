@@ -2,8 +2,9 @@ package com.example.financeanalyzer.di
 
 import com.example.financeanalyzer.feature_finance.domain.repository.FinanceRepository
 import com.example.financeanalyzer.feature_finance.domain.use_case.GetConstantTransactions
+import com.example.financeanalyzer.feature_finance.domain.use_case.GetFirstDayOfTheMonthInMillis
 import com.example.financeanalyzer.feature_finance.domain.use_case.GetTransactions
-import com.example.financeanalyzer.feature_finance.domain.use_case.TransactionUseCases
+import com.example.financeanalyzer.feature_finance.domain.use_case.main.TransactionUseCases
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,7 +20,8 @@ object MainModule {
     fun provideTransactionUseCases(repository: FinanceRepository): TransactionUseCases {
         return TransactionUseCases(
             getTransactions = GetTransactions(repository),
-            getConstantTransactions = GetConstantTransactions(repository)
+            getConstantTransactions = GetConstantTransactions(repository),
+            getFirstDayOfTheMonthInMillis = GetFirstDayOfTheMonthInMillis()
         )
     }
 }

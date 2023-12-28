@@ -68,9 +68,22 @@ object Constants {
             id = 8,
             name = "Inne",
             icon = R.drawable.ic_dots,
-            color = Color(0xFFFFFFFF),
+            color = Color.Gray,
             transactionType = TransactionCategory.TYPE_EXPENSE
+        ),
+        TransactionCategory(
+            id = 9,
+            name = "Prezent",
+            icon = R.drawable.ic_gift,
+            color = Color.Gray,
+            transactionType = TransactionCategory.TYPE_INCOME
+        ),
+        TransactionCategory(
+            id = 10,
+            name = "Inne",
+            icon = R.drawable.ic_dots,
+            color = Color.Gray,
+            transactionType = TransactionCategory.TYPE_INCOME
         )
-
     )
 }

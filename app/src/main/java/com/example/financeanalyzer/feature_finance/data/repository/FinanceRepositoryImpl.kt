@@ -28,4 +28,8 @@ class FinanceRepositoryImpl(
     override suspend fun addTransaction(transaction: Transaction) {
         financeDao.addTransaction(transaction)
     }
+
+    override suspend fun addConstantTransaction(constantTransaction: ConstantTransaction) {
+        financeDao.addConstantTransaction(constantTransaction)
+    }
 }

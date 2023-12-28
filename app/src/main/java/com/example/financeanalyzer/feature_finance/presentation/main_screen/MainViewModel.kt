@@ -5,8 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.financeanalyzer.feature_finance.data.util.Constants
+import com.example.financeanalyzer.feature_finance.domain.model.ConstantTransaction
 import com.example.financeanalyzer.feature_finance.domain.model.Transaction
-import com.example.financeanalyzer.feature_finance.domain.use_case.TransactionUseCases
+import com.example.financeanalyzer.feature_finance.domain.use_case.main.TransactionUseCases
 import com.example.financeanalyzer.feature_finance.presentation.util.parseIntToMonthString
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -72,18 +73,6 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private fun getFirstDayOfTheMonthInMillis(): Long {
-        val c = Calendar.getInstance()
-        c.set(Calendar.HOUR_OF_DAY, 0)
-        c.clear(Calendar.MINUTE)
-        c.clear(Calendar.SECOND)
-        c.clear(Calendar.MILLISECOND)
-
-        c.set(Calendar.DAY_OF_MONTH, 1)
-
-        return c.timeInMillis
-    }
-
     private fun getCurrentMonth() {
         val c = Calendar.getInstance()
 
@@ -98,31 +87,32 @@ class MainViewModel @Inject constructor(
         var income = 0f
         var expense = 0f
 
-        transactions
-            .forEach { transaction ->
-                when (transaction.transactionType) {
-                    Transaction.TYPE_EXPENSE -> expense += transaction.value
-                    Transaction.TYPE_INCOME -> income += transaction.value
-                }
-            }
-        constantTransactions
-            .forEach { constantTransaction ->
-                when (constantTransaction.transactionType) {
-                    Transaction.TYPE_EXPENSE -> expense += constantTransaction.value
-                    Transaction.TYPE_INCOME -> income += constantTransaction.value
-                }
-            }
+        val transactionsExpense = transactions
+            .filter { it.transactionType == Transaction.TYPE_EXPENSE }
+            .sumOf { it.value.toDouble() }.toFloat()
+        val transactionsIncome = transactions
+            .filter { it.transactionType == Transaction.TYPE_INCOME }
+            .sumOf { it.value.toDouble() }.toFloat()
+
+        val constantTransactionsExpense = constantTransactions
+            .filter { it.transactionType == ConstantTransaction.TYPE_EXPENSE }
+            .sumOf { it.value.toDouble() }.toFloat()
+        val constantTransactionsIncome = constantTransactions
+            .filter { it.transactionType == ConstantTransaction.TYPE_INCOME }
+            .sumOf { it.value.toDouble() }.toFloat()
+
+        expense += transactionsExpense + constantTransactionsExpense
+        income += transactionsIncome + constantTransactionsIncome
 
         _state.value = state.value.copy(
             expense = expense,
             income = income
         )
-
     }
 
     private suspend fun getTransactionsFromCurrentMonth() {
 
-        val firstDayOfMonth = getFirstDayOfTheMonthInMillis()
+        val firstDayOfMonth = transactionUseCases.getFirstDayOfTheMonthInMillis()
 
         val transactions = transactionUseCases.getTransactions(firstDayOfMonth)
 

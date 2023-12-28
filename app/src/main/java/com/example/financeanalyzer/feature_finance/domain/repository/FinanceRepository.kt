@@ -16,4 +16,6 @@ interface FinanceRepository {
     suspend fun getAllConstantTransactions(): List<ConstantTransaction>
 
     suspend fun addTransaction(transaction: Transaction)
+
+    suspend fun addConstantTransaction(constantTransaction: ConstantTransaction)
 }

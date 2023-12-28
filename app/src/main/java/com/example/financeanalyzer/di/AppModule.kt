@@ -5,9 +5,6 @@ import androidx.room.Room
 import com.example.financeanalyzer.feature_finance.data.data_source.FinanceDatabase
 import com.example.financeanalyzer.feature_finance.data.repository.FinanceRepositoryImpl
 import com.example.financeanalyzer.feature_finance.domain.repository.FinanceRepository
-import com.example.financeanalyzer.feature_finance.domain.use_case.GetConstantTransactions
-import com.example.financeanalyzer.feature_finance.domain.use_case.GetTransactions
-import com.example.financeanalyzer.feature_finance.domain.use_case.TransactionUseCases
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
