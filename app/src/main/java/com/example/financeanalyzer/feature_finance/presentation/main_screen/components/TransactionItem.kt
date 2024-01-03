@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.financeanalyzer.feature_finance.domain.model.Transaction
@@ -21,7 +22,8 @@ import java.util.*
 
 @Composable
 fun TransactionItem(
-    transaction: Transaction
+    transaction: Transaction,
+    isDetailed: Boolean = false
 ) {
 
     val sdf = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
@@ -63,11 +65,15 @@ fun TransactionItem(
                 )
             }
             Spacer(modifier = Modifier.width(8.dp))
-            Column {
+            Column(
+                modifier = Modifier.fillMaxWidth(0.6f)
+            ) {
                 Text(
-                    text = transaction.category.name,
+                    text = if (isDetailed) transaction.name else transaction.category.name,
                     fontSize = 20.sp,
-                    color = Color.Black
+                    color = Color.Black,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1
                 )
                 Text(
                     text = date,

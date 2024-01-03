@@ -63,7 +63,7 @@ class AddTransactionViewModel @Inject constructor(
         }
     }
 
-    fun setSelectedDate(day: Int, month: Int) {
+    fun setStateDate(day: Int, month: Int) {
         _state.value = state.value.copy(
             date = addTransactionUseCases.getSelectedDateInMillis(day, month)
         )

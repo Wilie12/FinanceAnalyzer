@@ -48,35 +48,12 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun addTransactionTEST() {
-        viewModelScope.launch {
-
-            val transaction = Transaction(
-                0,
-                1701491600000,
-                Constants.transactionCategories[6],
-                1324.77f,
-                "Shopping",
-                Transaction.TYPE_EXPENSE
-            )
-            val transaction2 = Transaction(
-                0,
-                1701791600000,
-                Constants.transactionCategories[7],
-                2324.77f,
-                "Cash",
-                Transaction.TYPE_EXPENSE
-            )
-
-//            financeRepository.addTransaction(transaction2)
-
-        }
-    }
-
     private fun getCurrentMonth() {
         val c = Calendar.getInstance()
 
-        _currentMonth.value = parseIntToMonthString(c.get(Calendar.MONTH))
+        _state.value = state.value.copy(
+            currentMonth = parseIntToMonthString(c.get(Calendar.MONTH))
+        )
     }
 
     private fun getIncomeAndExpenseFromCurrentMonth() {

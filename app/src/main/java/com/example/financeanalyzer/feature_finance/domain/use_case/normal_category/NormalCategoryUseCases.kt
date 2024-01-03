@@ -1,0 +1,9 @@
+package com.example.financeanalyzer.feature_finance.domain.use_case.normal_category
+
+import com.example.financeanalyzer.feature_finance.domain.use_case.GetAllTransactionsFromCurrentMonthByCategory
+import com.example.financeanalyzer.feature_finance.domain.use_case.GetFirstDayOfTheMonthInMillis
+
+data class NormalCategoryUseCases(
+    val getAllTransactionsFromCurrentMonthByCategory: GetAllTransactionsFromCurrentMonthByCategory,
+    val getFirstDayOfTheMonthInMillis: GetFirstDayOfTheMonthInMillis
+)

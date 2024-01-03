@@ -23,7 +23,8 @@ import com.example.financeanalyzer.feature_finance.data.util.Constants
 
 @Composable
 fun CategoryItem(
-    categoryGroupItem: CategoryGroupItem
+    categoryGroupItem: CategoryGroupItem,
+    onClick: (Int) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -34,7 +35,7 @@ fun CategoryItem(
                 shape = RoundedCornerShape(32.dp)
             )
             .clip(RoundedCornerShape(32.dp))
-            .clickable {  }
+            .clickable { onClick(categoryGroupItem.category.id) }
             .padding(16.dp)
     ) {
         Row(

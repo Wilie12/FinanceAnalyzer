@@ -6,5 +6,6 @@ data class ExpenseState(
     val categoryGroupItems: List<CategoryGroupItem> = emptyList(),
     val normalExpense: Float = 0f,
     val constantExpense: Float = 0f,
+    val currentMonth: String = "",
     val isLoading: Boolean = true
 )

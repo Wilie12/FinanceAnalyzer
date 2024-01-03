@@ -45,12 +45,8 @@ fun AddTransactionScreen(
 
     val selectedTransactionType = viewModel.state.value.transactionType
     val selectedType = viewModel.state.value.type
-    var selectedCategoryExpense by remember {
-        mutableStateOf(viewModel.state.value.categoryExpense)
-    }
-    var selectedCategoryIncome by remember {
-        mutableStateOf(viewModel.state.value.categoryIncome)
-    }
+    val selectedCategoryExpense = viewModel.state.value.categoryExpense
+    val selectedCategoryIncome = viewModel.state.value.categoryIncome
 
     val scrollState = rememberScrollState()
 
@@ -63,10 +59,8 @@ fun AddTransactionScreen(
     val datePickerDialog = DatePickerDialog(
         LocalContext.current,
         { _: DatePicker, _: Int, mMonth: Int, mDayOfMonth: Int ->
-
-            viewModel.setSelectedDate(mDayOfMonth, mMonth)
+            viewModel.setStateDate(mDayOfMonth, mMonth)
             viewModel.setDateText(viewModel.state.value.date)
-
         }, year, month, day
     )
     datePickerDialog.datePicker.minDate = viewModel.firstDayOfTheMonth
@@ -96,7 +90,7 @@ fun AddTransactionScreen(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Dodaj",
+                    text = "Dodaj ${if (selectedTransactionType == Transaction.TYPE_EXPENSE) "wydatek" else "przychód"}",
                     fontSize = 22.sp,
                     color = Color.Black
                 )
@@ -308,9 +302,8 @@ fun AddTransactionScreen(
                             color = Color.Black
                         )
                         Spacer(modifier = Modifier.height(8.dp))
-                        // TODO - Check why state isn't updating radioButtons automatically
                         LazyVerticalGrid(
-                            columns = GridCells.Fixed(6),
+                            columns = GridCells.Adaptive(50.dp),
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp),
                             modifier = Modifier
@@ -325,7 +318,6 @@ fun AddTransactionScreen(
                                             isSelected = it.id == selectedCategoryExpense.id,
                                             onClick = { categoryId ->
                                                 viewModel.setStateCategoryExpense(Constants.transactionCategories[categoryId])
-                                                selectedCategoryExpense = Constants.transactionCategories[categoryId]
                                             }
                                         )
                                     }
@@ -337,7 +329,6 @@ fun AddTransactionScreen(
                                             isSelected = it.id == selectedCategoryIncome.id,
                                             onClick = { categoryId ->
                                                 viewModel.setStateCategoryIncome(Constants.transactionCategories[categoryId])
-                                                selectedCategoryIncome = Constants.transactionCategories[categoryId]
                                             }
                                         )
                                     }

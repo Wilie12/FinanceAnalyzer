@@ -28,16 +28,18 @@ fun FinanceArc(
     value: Float,
 ) {
 
-    val percentage by remember { mutableStateOf(value / maxValue) }
+    val percentage by remember {
+        if (value > 0 ) mutableStateOf(value / maxValue) else mutableStateOf(0f)
+    }
     var animationPlayed by remember { mutableStateOf(false) }
-    var percValue = animateFloatAsState(
+    val percValue = animateFloatAsState(
         targetValue = if (animationPlayed) percentage else 1f,
         animationSpec = tween(
             durationMillis = 500,
             easing = LinearEasing
         )
     )
-    var valueAnim = animateFloatAsState(
+    val valueAnim = animateFloatAsState(
         targetValue = if (animationPlayed) value else maxValue,
         animationSpec = tween(
             durationMillis = 500,
@@ -81,7 +83,7 @@ fun FinanceArc(
         ) {
             Spacer(modifier = Modifier.height(60.dp))
             Text(
-                text = "Pozostało",
+                text = if (value < 0f) "Brakuje" else "Pozostało",
                 fontSize = 18.sp,
                 color = Color.White
             )

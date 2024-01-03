@@ -8,5 +8,6 @@ data class MainState(
     val constantTransactions: List<ConstantTransaction> = emptyList(),
     val income: Float = 0f,
     val expense: Float = 0f,
+    val currentMonth: String = "",
     val isLoading: Boolean = true
 )

@@ -6,6 +6,7 @@ import androidx.room.Query
 import com.example.financeanalyzer.feature_finance.domain.model.CategoryGroupItem
 import com.example.financeanalyzer.feature_finance.domain.model.ConstantTransaction
 import com.example.financeanalyzer.feature_finance.domain.model.Transaction
+import com.example.financeanalyzer.feature_finance.domain.model.TransactionCategory
 
 @Dao
 interface FinanceDao {
@@ -19,6 +20,13 @@ interface FinanceDao {
 
     @Query("SELECT * FROM transaction_table WHERE date >= :firstDayOfMonth ORDER BY date DESC")
     suspend fun getAllTransactionsFromCurrentMonth(firstDayOfMonth: Long): List<Transaction>
+
+    @Query("SELECT * FROM transaction_table " +
+            "WHERE date >= :firstDayOfMonth AND category = :category ORDER BY date DESC")
+    suspend fun getAllTransactionsFromCurrentMonthByCategory(
+        firstDayOfMonth: Long,
+        category: TransactionCategory
+    ): List<Transaction>
 
     @Query("SELECT * FROM constant_transaction_table")
     suspend fun getAllConstantTransactions(): List<ConstantTransaction>

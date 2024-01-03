@@ -75,7 +75,7 @@ object Constants {
             id = 9,
             name = "Prezent",
             icon = R.drawable.ic_gift,
-            color = Color.Gray,
+            color = Color(0xFFAD1457),
             transactionType = TransactionCategory.TYPE_INCOME
         ),
         TransactionCategory(
@@ -84,6 +84,14 @@ object Constants {
             icon = R.drawable.ic_dots,
             color = Color.Gray,
             transactionType = TransactionCategory.TYPE_INCOME
+        ),
+        // Only for testing
+        TransactionCategory(
+            id = 11,
+            name = "Stałe",
+            icon = R.drawable.ic_income,
+            color = Color(0xFF161616),
+            transactionType = 777
         )
     )
 }

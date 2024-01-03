@@ -22,9 +22,6 @@ class ExpenseViewModel @Inject constructor(
     private val _state = mutableStateOf(ExpenseState())
     val state: State<ExpenseState> = _state
 
-    private var _currentMonth = mutableStateOf("")
-    val currentMonth: State<String> = _currentMonth
-
     init {
         getCurrentMonth()
         getExpenses()
@@ -33,7 +30,9 @@ class ExpenseViewModel @Inject constructor(
     private fun getCurrentMonth() {
         val c = Calendar.getInstance()
 
-        _currentMonth.value = parseIntToMonthString(c.get(Calendar.MONTH))
+        _state.value = state.value.copy(
+            currentMonth = parseIntToMonthString(c.get(Calendar.MONTH))
+        )
     }
 
     private fun getExpenses() {
