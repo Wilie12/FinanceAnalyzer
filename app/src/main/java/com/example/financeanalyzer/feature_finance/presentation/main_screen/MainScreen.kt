@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.financeanalyzer.R
+import com.example.financeanalyzer.feature_finance.presentation.common.FinanceTopBar
 import com.example.financeanalyzer.feature_finance.presentation.main_screen.components.FinanceArc
 import com.example.financeanalyzer.feature_finance.presentation.main_screen.components.TextWithValue
 import com.example.financeanalyzer.feature_finance.presentation.main_screen.components.TransactionItem
@@ -56,14 +57,11 @@ fun MainScreen(
             )
         } else {
 
-            Column(
-                modifier = Modifier
-                    .align(Alignment.TopCenter)
-            ) {
-                Text(
-                    text = "Finance Analyzer",
-                    fontSize = 22.sp,
-                    color = Color.Black
+            Column(modifier = Modifier.align(Alignment.TopCenter)) {
+                FinanceTopBar(
+                    navController = navController,
+                    title = "Finance Analyzer",
+                    isBackVisible = false
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Column(
@@ -72,14 +70,13 @@ fun MainScreen(
                         .fillMaxWidth()
                         .background(
                             color = Color(0xFF87CEEB),
-//                        color = Color(0xFF6082B6),
                             shape = RoundedCornerShape(32.dp)
                         )
                         .padding(16.dp)
                 ) {
                     Row(modifier = Modifier.fillMaxWidth()) {
                         Text(
-                            text = viewModel.currentMonth.value,
+                            text = viewModel.state.value.currentMonth,
                             fontSize = 20.sp,
                             color = Color.White,
                             textAlign = TextAlign.Start

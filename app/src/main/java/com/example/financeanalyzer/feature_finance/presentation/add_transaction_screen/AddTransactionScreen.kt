@@ -33,6 +33,7 @@ import com.example.financeanalyzer.R
 import com.example.financeanalyzer.feature_finance.data.util.Constants
 import com.example.financeanalyzer.feature_finance.domain.model.Transaction
 import com.example.financeanalyzer.feature_finance.presentation.add_transaction_screen.components.TransactionCategoryItem
+import com.example.financeanalyzer.feature_finance.presentation.common.FinanceTopBar
 import com.example.financeanalyzer.feature_finance.presentation.util.Screen
 import com.example.financeanalyzer.feature_finance.presentation.util.TransactionType
 import java.util.*
@@ -75,33 +76,16 @@ fun AddTransactionScreen(
         Column(
             modifier = Modifier.align(Alignment.TopCenter)
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_back),
-                    contentDescription = "Back",
-                    tint = Color.Black,
-                    modifier = Modifier
-                        .size(30.dp)
-                        .clip(CircleShape)
-                        .clickable { navController.navigateUp() }
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = "Dodaj ${if (selectedTransactionType == Transaction.TYPE_EXPENSE) "wydatek" else "przychód"}",
-                    fontSize = 22.sp,
-                    color = Color.Black
-                )
-            }
+            FinanceTopBar(
+                navController = navController,
+                title = "Dodaj ${if (selectedTransactionType == Transaction.TYPE_EXPENSE) "wydatek" else "przychód"}"
+            )
             Spacer(modifier = Modifier.height(8.dp))
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(
                         color = Color(0xFF87CEEB),
-//                        color = Color(0xFF6082B6),
                         shape = RoundedCornerShape(32.dp)
                     )
                     .padding(16.dp)

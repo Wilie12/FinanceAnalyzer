@@ -17,40 +17,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.financeanalyzer.R
+import com.example.financeanalyzer.feature_finance.presentation.common.FinanceTopBar
 
 @Composable
 fun IncomeScreen(
     navController: NavController
 ) {
-
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = Color.White)
             .padding(16.dp)
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_back),
-                contentDescription = "Back",
-                tint = Color.Black,
-                modifier = Modifier
-                    .size(30.dp)
-                    .clip(CircleShape)
-                    .clickable {
-                        navController.navigateUp()
-                    }
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(
-                text = "Przychody",
-                fontSize = 22.sp,
-                color = Color.Black
-            )
-        }
+        FinanceTopBar(
+            navController = navController,
+            title = "Przychody"
+        )
         Box(modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center) {
             Text(
@@ -61,5 +43,4 @@ fun IncomeScreen(
             )
         }
     }
-
 }

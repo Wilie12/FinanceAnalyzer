@@ -12,7 +12,7 @@ import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
 @InstallIn(ViewModelComponent::class)
-object NormalTransactionModule {
+object NormalCategoryModule {
 
     @Provides
     @ViewModelScoped

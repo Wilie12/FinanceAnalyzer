@@ -4,7 +4,6 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.financeanalyzer.feature_finance.data.util.Constants
 import com.example.financeanalyzer.feature_finance.domain.model.ConstantTransaction
 import com.example.financeanalyzer.feature_finance.domain.model.Transaction
 import com.example.financeanalyzer.feature_finance.domain.use_case.main.TransactionUseCases
@@ -22,16 +21,12 @@ class MainViewModel @Inject constructor(
     private val _state = mutableStateOf(MainState())
     val state: State<MainState> = _state
 
-    private var _currentMonth = mutableStateOf("")
-    val currentMonth: State<String> = _currentMonth
-
     init {
         getTransactions()
         getCurrentMonth()
     }
 
     private fun getTransactions() {
-
         viewModelScope.launch {
             _state.value = state.value.copy(isLoading = true)
 
@@ -39,7 +34,6 @@ class MainViewModel @Inject constructor(
                 getTransactionsFromCurrentMonth()
                 getConstantTransactions()
             }
-
             job.join()
 
             getIncomeAndExpenseFromCurrentMonth()

@@ -32,7 +32,9 @@ import androidx.navigation.NavController
 import com.example.financeanalyzer.R
 import com.example.financeanalyzer.feature_finance.data.util.Constants
 import com.example.financeanalyzer.feature_finance.domain.model.CategoryGroupItem
+import com.example.financeanalyzer.feature_finance.domain.model.ConstantTransaction
 import com.example.financeanalyzer.feature_finance.domain.model.TransactionCategory
+import com.example.financeanalyzer.feature_finance.presentation.common.FinanceTopBar
 import com.example.financeanalyzer.feature_finance.presentation.expense_screen.components.CategoryItem
 import com.example.financeanalyzer.feature_finance.presentation.main_screen.components.TextWithValue
 import com.example.financeanalyzer.feature_finance.presentation.util.Screen
@@ -67,35 +69,16 @@ fun ExpenseScreen(
         Column(
             modifier = Modifier.align(Alignment.TopCenter)
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_back),
-                    contentDescription = "Back",
-                    tint = Color.Black,
-                    modifier = Modifier
-                        .size(30.dp)
-                        .clip(CircleShape)
-                        .clickable {
-                            navController.navigateUp()
-                        }
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = "Wydatki",
-                    fontSize = 22.sp,
-                    color = Color.Black
-                )
-            }
+            FinanceTopBar(
+                navController = navController,
+                title = "Wydatki"
+            )
             Spacer(modifier = Modifier.height(8.dp))
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(
                         color = Color(0xFF87CEEB),
-//                        color = Color(0xFF6082B6),
                         shape = RoundedCornerShape(32.dp)
                     )
                     .padding(16.dp)
@@ -165,7 +148,7 @@ fun ExpenseScreen(
                             value = viewModel.state.value.constantExpense
                         )
                     ) {
-
+                        navController.navigate(Screen.ConstantTransactionsScreen.route + "/${ConstantTransaction.TYPE_EXPENSE}")
                     }
                 }
                 items(viewModel.state.value.categoryGroupItems) {

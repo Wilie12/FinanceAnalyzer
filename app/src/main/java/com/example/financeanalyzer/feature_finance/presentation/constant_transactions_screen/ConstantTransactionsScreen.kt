@@ -1,4 +1,4 @@
-package com.example.financeanalyzer.feature_finance.presentation.normal_category_screen
+package com.example.financeanalyzer.feature_finance.presentation.constant_transactions_screen
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -6,39 +6,40 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.financeanalyzer.R
+import com.example.financeanalyzer.feature_finance.domain.model.ConstantTransaction
 import com.example.financeanalyzer.feature_finance.presentation.common.FinanceTopBar
-import com.example.financeanalyzer.feature_finance.presentation.main_screen.components.TransactionItem
 import com.example.financeanalyzer.feature_finance.presentation.util.Screen
 import java.math.RoundingMode
 
 @Composable
-fun NormalCategoryScreen(
+fun ConstantTransactionsScreen(
     navController: NavController,
-    viewModel: NormalCategoryViewModel = hiltViewModel()
+    viewModel: ConstantTransactionsViewModel = hiltViewModel()
 ) {
+    // TODO - finish ConstantTransactionsScreen
 
     var animationPlayed by remember { mutableStateOf(false) }
-    val animatedTotalExpenseOnCategory by animateFloatAsState(
-        targetValue = if (animationPlayed) { viewModel.state.value.totalExpenseOnCategory } else 0f,
+    val animatedValue by animateFloatAsState(
+        targetValue = if (animationPlayed) {
+            if (viewModel.state.value.transactionType == ConstantTransaction.TYPE_EXPENSE) {
+                viewModel.state.value.totalConstantExpense
+            } else {
+                viewModel.state.value.totalConstantIncome
+            }
+        } else 0f,
         animationSpec = tween(
             durationMillis = 500,
             easing = LinearEasing
@@ -59,14 +60,14 @@ fun NormalCategoryScreen(
         ) {
             FinanceTopBar(
                 navController = navController,
-                title = viewModel.state.value.category.name
+                title = "Stałe ${if (viewModel.state.value.transactionType == ConstantTransaction.TYPE_EXPENSE) "wydatki" else "przychody"}"
             )
             Spacer(modifier = Modifier.height(8.dp))
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(
-                        color = viewModel.state.value.category.color,
+                        color = Color(0xFF87CEEB),
                         shape = RoundedCornerShape(32.dp)
                     )
                     .padding(16.dp)
@@ -77,7 +78,9 @@ fun NormalCategoryScreen(
                     color = Color.White
                 )
                 Text(
-                    text = "-${animatedTotalExpenseOnCategory.toBigDecimal().setScale(2, RoundingMode.HALF_DOWN)}zł",
+                    text = "-${
+                        animatedValue.toBigDecimal().setScale(2, RoundingMode.HALF_DOWN)
+                    }zł",
                     fontSize = 40.sp,
                     color = Color.White,
                     fontWeight = FontWeight.Bold
@@ -85,28 +88,14 @@ fun NormalCategoryScreen(
             }
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Ostatnie",
+                text = "Wszystkie",
                 color = Color.Black,
                 fontSize = 22.sp
             )
             Spacer(modifier = Modifier.height(8.dp))
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.fillMaxHeight()
-            ) {
-                items(viewModel.state.value.transactionsExpense) { transaction ->
-                    TransactionItem(
-                        transaction = transaction,
-                        isDetailed = true
-                    )
-                }
-                item {
-                    Spacer(modifier = Modifier.height(60.dp))
-                }
-            }
         }
         Text(
-            text = "Dodaj wydatek",
+            text = "Dodaj ${if (viewModel.state.value.transactionType == ConstantTransaction.TYPE_EXPENSE) "wydatek" else "przychód"}",
             fontSize = 20.sp,
             color = Color.White,
             textAlign = TextAlign.Center,
@@ -120,6 +109,7 @@ fun NormalCategoryScreen(
                 .clip(RoundedCornerShape(32.dp))
                 .clickable { navController.navigate(Screen.AddTransactionScreen.route) }
                 .padding(8.dp)
+
         )
     }
 }
