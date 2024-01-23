@@ -8,4 +8,5 @@ sealed class Screen(val route: String) {
     object AddTransactionScreen: Screen("add_transaction_screen")
     object NormalCategoryScreen: Screen("normal_category_screen")
     object ConstantTransactionsScreen: Screen("constant_transactions_screen")
+    object ConstantTransactionEditScreen: Screen("constant_transaction_edit_screen")
 }

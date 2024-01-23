@@ -49,7 +49,6 @@ fun TransactionItem(
                     .border(
                         width = 2.dp,
                         color = transaction.category.color,
-//                        color = Color(0xFF87CEEB),
                         shape = RoundedCornerShape(22.dp)
                     )
                     .padding(10.dp)
@@ -60,7 +59,6 @@ fun TransactionItem(
                     ),
                     contentDescription = transaction.category.name,
                     tint = transaction.category.color,
-//                    tint = Color(0xFF87CEEB),
                     modifier = Modifier.size(30.dp)
                 )
             }

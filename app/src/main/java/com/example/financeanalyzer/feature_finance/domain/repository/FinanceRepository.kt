@@ -7,6 +7,8 @@ import com.example.financeanalyzer.feature_finance.domain.model.TransactionCateg
 
 interface FinanceRepository {
 
+    suspend fun getConstantTransaction(id: Int): ConstantTransaction
+
     suspend fun getAllTransactionsGroupedByCategoryFromCurrentMonth(
         firstDayOfMonth: Long,
         transactionType: Int
@@ -24,4 +26,6 @@ interface FinanceRepository {
     suspend fun addTransaction(transaction: Transaction)
 
     suspend fun addConstantTransaction(constantTransaction: ConstantTransaction)
+
+    suspend fun updateConstantTransaction(constantTransaction: ConstantTransaction)
 }

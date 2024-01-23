@@ -1,6 +1,5 @@
 package com.example.financeanalyzer.feature_finance.presentation.constant_transactions_screen
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
@@ -27,8 +26,6 @@ class ConstantTransactionsViewModel @Inject constructor(
         setStateTransactionType(checkNotNull(savedStateHandle["transactionType"]))
         getCurrentMonth()
         setUp()
-        Log.d("CONSTANTS_TRANSACTIONS", "state list: ${state.value.constantTransactions}")
-        Log.d("CONSTANTS_TRANSACTIONS", "state value: ${state.value.totalConstantExpense}")
     }
 
     private fun getCurrentMonth() {

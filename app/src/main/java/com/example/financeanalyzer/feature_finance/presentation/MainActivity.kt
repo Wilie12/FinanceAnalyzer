@@ -14,6 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.financeanalyzer.feature_finance.presentation.add_transaction_screen.AddTransactionScreen
+import com.example.financeanalyzer.feature_finance.presentation.constant_transaction_edit_screen.ConstantTransactionEditScreen
 import com.example.financeanalyzer.feature_finance.presentation.constant_transactions_screen.ConstantTransactionsScreen
 import com.example.financeanalyzer.feature_finance.presentation.expense_screen.ExpenseScreen
 import com.example.financeanalyzer.feature_finance.presentation.income_screen.IncomeScreen
@@ -69,6 +70,16 @@ class MainActivity : ComponentActivity() {
                             )
                         ) {
                             ConstantTransactionsScreen(navController = navController)
+                        }
+                        composable(
+                            route = Screen.ConstantTransactionEditScreen.route + "/{id}",
+                            arguments = listOf(
+                                navArgument("id") {
+                                    type = NavType.IntType
+                                }
+                            )
+                        ) {
+                            ConstantTransactionEditScreen(navController = navController)
                         }
                     }
                 }

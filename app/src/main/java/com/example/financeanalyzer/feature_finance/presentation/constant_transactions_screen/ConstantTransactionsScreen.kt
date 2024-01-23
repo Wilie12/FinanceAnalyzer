@@ -6,6 +6,8 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -21,6 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.financeanalyzer.feature_finance.domain.model.ConstantTransaction
 import com.example.financeanalyzer.feature_finance.presentation.common.FinanceTopBar
+import com.example.financeanalyzer.feature_finance.presentation.constant_transactions_screen.components.ConstantTransactionItem
 import com.example.financeanalyzer.feature_finance.presentation.util.Screen
 import java.math.RoundingMode
 
@@ -29,10 +32,8 @@ fun ConstantTransactionsScreen(
     navController: NavController,
     viewModel: ConstantTransactionsViewModel = hiltViewModel()
 ) {
-    // TODO - finish ConstantTransactionsScreen
-
     var animationPlayed by remember { mutableStateOf(false) }
-    val animatedValue by animateFloatAsState(
+    val animatedValue by animateFloatAsState(    
         targetValue = if (animationPlayed) {
             if (viewModel.state.value.transactionType == ConstantTransaction.TYPE_EXPENSE) {
                 viewModel.state.value.totalConstantExpense
@@ -93,6 +94,17 @@ fun ConstantTransactionsScreen(
                 fontSize = 22.sp
             )
             Spacer(modifier = Modifier.height(8.dp))
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(viewModel.state.value.constantTransactions) {
+                    ConstantTransactionItem(
+                        constantTransaction = it,
+                    ) { id ->
+                        navController.navigate(Screen.ConstantTransactionEditScreen.route + "/$id")
+                    }
+                }
+            }
         }
         Text(
             text = "Dodaj ${if (viewModel.state.value.transactionType == ConstantTransaction.TYPE_EXPENSE) "wydatek" else "przychód"}",
@@ -109,7 +121,6 @@ fun ConstantTransactionsScreen(
                 .clip(RoundedCornerShape(32.dp))
                 .clickable { navController.navigate(Screen.AddTransactionScreen.route) }
                 .padding(8.dp)
-
         )
     }
 }

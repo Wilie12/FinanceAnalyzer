@@ -48,7 +48,8 @@ fun CategoryItem(
                 fontSize = 18.sp,
                 color = Color.Black,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.weight(8f)
             )
             Icon(
                 painter = painterResource(
@@ -56,7 +57,9 @@ fun CategoryItem(
                 ),
                 contentDescription = categoryGroupItem.category.name,
                 tint = categoryGroupItem.category.color,
-                modifier = Modifier.size(30.dp)
+                modifier = Modifier
+                    .size(30.dp)
+                    .weight(2f)
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
@@ -70,7 +73,8 @@ fun CategoryItem(
                 fontSize = 22.sp,
                 color = Color.Black,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.weight(8f)
             )
             Icon(
                 painter = painterResource(id = R.drawable.ic_back),
@@ -80,7 +84,7 @@ fun CategoryItem(
                     .size(30.dp)
                     .rotate(180f)
                     .clip(CircleShape)
-
+                    .weight(2f)
             )
         }
     }

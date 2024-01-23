@@ -11,6 +11,10 @@ class FinanceRepositoryImpl(
     private val financeDao: FinanceDao
 ): FinanceRepository {
 
+    override suspend fun getConstantTransaction(id: Int): ConstantTransaction {
+        return financeDao.getConstantTransaction(id)
+    }
+
     override suspend fun getAllTransactionsGroupedByCategoryFromCurrentMonth(
         firstDayOfMonth: Long,
         transactionType: Int
@@ -39,5 +43,9 @@ class FinanceRepositoryImpl(
 
     override suspend fun addConstantTransaction(constantTransaction: ConstantTransaction) {
         financeDao.addConstantTransaction(constantTransaction)
+    }
+
+    override suspend fun updateConstantTransaction(constantTransaction: ConstantTransaction) {
+        financeDao.updateConstantTransaction(constantTransaction)
     }
 }
