@@ -4,7 +4,7 @@ import com.example.financeanalyzer.feature_finance.domain.repository.FinanceRepo
 import com.example.financeanalyzer.feature_finance.domain.use_case.GetConstantTransactions
 import com.example.financeanalyzer.feature_finance.domain.use_case.GetFirstDayOfTheMonthInMillis
 import com.example.financeanalyzer.feature_finance.domain.use_case.GetTransactions
-import com.example.financeanalyzer.feature_finance.domain.use_case.main.TransactionUseCases
+import com.example.financeanalyzer.feature_finance.domain.use_case.main.MainUseCases
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,8 +17,8 @@ object MainModule {
 
     @Provides
     @ViewModelScoped
-    fun provideTransactionUseCases(repository: FinanceRepository): TransactionUseCases {
-        return TransactionUseCases(
+    fun provideTransactionUseCases(repository: FinanceRepository): MainUseCases {
+        return MainUseCases(
             getTransactions = GetTransactions(repository),
             getConstantTransactions = GetConstantTransactions(repository),
             getFirstDayOfTheMonthInMillis = GetFirstDayOfTheMonthInMillis()

@@ -27,7 +27,7 @@ class NormalCategoryViewModel @Inject constructor(
     init {
         getCurrentMonth()
         getCategory(checkNotNull(savedStateHandle["categoryId"]))
-        getTransactions()
+        getTransactions(state.value.category.transactionType)
     }
 
     private fun getCurrentMonth() {
@@ -44,17 +44,24 @@ class NormalCategoryViewModel @Inject constructor(
         )
     }
 
-    private fun getTransactions() {
+    private fun getTransactions(transactionType: Int) {
 
         viewModelScope.launch {
 
             _state.value = state.value.copy(isLoading = true)
 
             val job = viewModelScope.launch {
-                getTransactionsExpense(
-                    normalCategoryUseCases.getFirstDayOfTheMonthInMillis(),
-                    state.value.category
-                )
+                if (transactionType == Transaction.TYPE_EXPENSE) {
+                    getTransactionsExpense(
+                        normalCategoryUseCases.getFirstDayOfTheMonthInMillis(),
+                        state.value.category
+                    )
+                } else {
+                    getTransactionsIncome(
+                        normalCategoryUseCases.getFirstDayOfTheMonthInMillis(),
+                        state.value.category
+                    )
+                }
             }
             job.join()
 
@@ -74,17 +81,41 @@ class NormalCategoryViewModel @Inject constructor(
                 category
             )
         _state.value = state.value.copy(
-            transactionsExpense = listOfTransactions.filter { it.transactionType == Transaction.TYPE_EXPENSE }
+            transactions = listOfTransactions.filter { it.transactionType == Transaction.TYPE_EXPENSE }
+        )
+    }
+
+    private suspend fun getTransactionsIncome(
+        firstDayOfMonth: Long,
+        category: TransactionCategory
+    ) {
+        val listOfTransactions =
+            normalCategoryUseCases.getAllTransactionsFromCurrentMonthByCategory(
+                firstDayOfMonth,
+                category
+            )
+        _state.value = state.value.copy(
+            transactions = listOfTransactions.filter { it.transactionType == Transaction.TYPE_INCOME }
         )
     }
 
     private fun getTotalExpense() {
-        val transactionsExpense = state.value.transactionsExpense
+        val transactionsExpense = state.value.transactions
 
         val totalExpense = transactionsExpense.sumOf { it.value.toDouble() }.toFloat()
 
         _state.value = state.value.copy(
-            totalExpenseOnCategory = totalExpense
+            totalValueOnCategory = totalExpense
+        )
+    }
+
+    private fun getTotalIncome() {
+        val transactions = state.value.transactions
+
+        val totalIncome = transactions.sumOf { it.value.toDouble() }.toFloat()
+
+        _state.value = state.value.copy(
+            totalValueOnCategory = totalIncome
         )
     }
 }

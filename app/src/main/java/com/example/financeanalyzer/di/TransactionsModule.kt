@@ -1,8 +1,8 @@
 package com.example.financeanalyzer.di
 
 import com.example.financeanalyzer.feature_finance.domain.repository.FinanceRepository
-import com.example.financeanalyzer.feature_finance.domain.use_case.expense.ExpenseUseCases
-import com.example.financeanalyzer.feature_finance.domain.use_case.expense.GetAllTransactionsGroupedByCategoryFromCurrentMonth
+import com.example.financeanalyzer.feature_finance.domain.use_case.transactions.TransactionsUseCases
+import com.example.financeanalyzer.feature_finance.domain.use_case.transactions.GetAllTransactionsGroupedByCategoryFromCurrentMonth
 import com.example.financeanalyzer.feature_finance.domain.use_case.GetConstantTransactions
 import com.example.financeanalyzer.feature_finance.domain.use_case.GetFirstDayOfTheMonthInMillis
 import dagger.Module
@@ -13,12 +13,12 @@ import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
 @InstallIn(ViewModelComponent::class)
-object ExpenseModule {
+object TransactionsModule {
 
     @Provides
     @ViewModelScoped
-    fun provideExpenseUseCases(repository: FinanceRepository): ExpenseUseCases {
-        return ExpenseUseCases(
+    fun provideExpenseUseCases(repository: FinanceRepository): TransactionsUseCases {
+        return TransactionsUseCases(
             getAllTransactionsGroupedByCategoryFromCurrentMonth = GetAllTransactionsGroupedByCategoryFromCurrentMonth(repository),
             getConstantTransactions = GetConstantTransactions(repository),
             getFirstDayOfTheMonthInMillis = GetFirstDayOfTheMonthInMillis()

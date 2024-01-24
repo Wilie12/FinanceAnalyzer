@@ -1,10 +1,9 @@
-package com.example.financeanalyzer.feature_finance.presentation.expense_screen
+package com.example.financeanalyzer.feature_finance.presentation.transactions_screen
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,44 +11,42 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.financeanalyzer.R
 import com.example.financeanalyzer.feature_finance.data.util.Constants
 import com.example.financeanalyzer.feature_finance.domain.model.CategoryGroupItem
 import com.example.financeanalyzer.feature_finance.domain.model.ConstantTransaction
-import com.example.financeanalyzer.feature_finance.domain.model.TransactionCategory
+import com.example.financeanalyzer.feature_finance.domain.model.Transaction
 import com.example.financeanalyzer.feature_finance.presentation.common.FinanceTopBar
-import com.example.financeanalyzer.feature_finance.presentation.expense_screen.components.CategoryItem
+import com.example.financeanalyzer.feature_finance.presentation.transactions_screen.components.CategoryItem
 import com.example.financeanalyzer.feature_finance.presentation.main_screen.components.TextWithValue
 import com.example.financeanalyzer.feature_finance.presentation.util.Screen
+import com.example.financeanalyzer.feature_finance.presentation.util.TransactionType
 import java.math.RoundingMode
 
 @Composable
-fun ExpenseScreen(
+fun TransactionsScreen(
     navController: NavController,
-    viewModel: ExpenseViewModel = hiltViewModel()
+    viewModel: TransactionsViewModel = hiltViewModel()
 ) {
 
     var animationPlayed by remember { mutableStateOf(false) }
     val animatedExpense by animateFloatAsState(
         targetValue = if (animationPlayed) {
-            (viewModel.state.value.normalExpense + viewModel.state.value.constantExpense)
+            (viewModel.state.value.normalValue + viewModel.state.value.constantValue)
         } else 0f,
         animationSpec = tween(
             durationMillis = 500,
@@ -71,7 +68,7 @@ fun ExpenseScreen(
         ) {
             FinanceTopBar(
                 navController = navController,
-                title = "Wydatki"
+                title = if (viewModel.state.value.transactionType == Transaction.TYPE_EXPENSE) "Wydatki" else "Przychody"
             )
             Spacer(modifier = Modifier.height(8.dp))
             Column(
@@ -89,12 +86,14 @@ fun ExpenseScreen(
                     color = Color.White
                 )
                 Text(
-                    text = "-${
+                    text = "${if (viewModel.state.value.transactionType == Transaction.TYPE_EXPENSE) "-" else ""}${
                         animatedExpense.toBigDecimal().setScale(2, RoundingMode.HALF_DOWN)
                     }zł",
                     fontSize = 40.sp,
                     color = Color.White,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Divider(
@@ -110,13 +109,13 @@ fun ExpenseScreen(
                 ) {
                     TextWithValue(
                         text = "Stałe",
-                        value = viewModel.state.value.constantExpense,
-                        isPositive = false
+                        value = viewModel.state.value.constantValue,
+                        isPositive = (viewModel.state.value.transactionType == Transaction.TYPE_INCOME)
                     )
                     TextWithValue(
                         text = "Zwykłe",
-                        value = viewModel.state.value.normalExpense,
-                        isPositive = false
+                        value = viewModel.state.value.normalValue,
+                        isPositive = (viewModel.state.value.transactionType == Transaction.TYPE_INCOME)
                     )
                 }
             }
@@ -145,10 +144,10 @@ fun ExpenseScreen(
                     CategoryItem(
                         categoryGroupItem = CategoryGroupItem(
                             Constants.transactionCategories.last(),
-                            value = viewModel.state.value.constantExpense
+                            value = viewModel.state.value.constantValue
                         )
                     ) {
-                        navController.navigate(Screen.ConstantTransactionsScreen.route + "/${ConstantTransaction.TYPE_EXPENSE}")
+                        navController.navigate(Screen.ConstantTransactionsScreen.route + "/${viewModel.state.value.transactionType}")
                     }
                 }
                 items(viewModel.state.value.categoryGroupItems) {
@@ -159,7 +158,7 @@ fun ExpenseScreen(
             }
         }
         Text(
-            text = "Dodaj wydatek",
+            text = "Dodaj ${if (viewModel.state.value.transactionType == Transaction.TYPE_EXPENSE) "wydatek" else "przychód"}",
             fontSize = 20.sp,
             color = Color.White,
             textAlign = TextAlign.Center,
@@ -171,7 +170,9 @@ fun ExpenseScreen(
                     shape = RoundedCornerShape(32.dp)
                 )
                 .clip(RoundedCornerShape(32.dp))
-                .clickable { navController.navigate(Screen.AddTransactionScreen.route) }
+                .clickable { navController.navigate(
+                    Screen.AddTransactionScreen.route + "/${viewModel.state.value.transactionType}/${TransactionType.TYPE_NORMAL}"
+                ) }
                 .padding(8.dp)
 
         )

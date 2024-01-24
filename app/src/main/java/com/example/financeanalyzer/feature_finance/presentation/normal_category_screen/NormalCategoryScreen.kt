@@ -8,23 +8,20 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.financeanalyzer.R
+import com.example.financeanalyzer.feature_finance.domain.model.Transaction
 import com.example.financeanalyzer.feature_finance.presentation.common.FinanceTopBar
 import com.example.financeanalyzer.feature_finance.presentation.main_screen.components.TransactionItem
 import com.example.financeanalyzer.feature_finance.presentation.util.Screen
@@ -38,7 +35,7 @@ fun NormalCategoryScreen(
 
     var animationPlayed by remember { mutableStateOf(false) }
     val animatedTotalExpenseOnCategory by animateFloatAsState(
-        targetValue = if (animationPlayed) { viewModel.state.value.totalExpenseOnCategory } else 0f,
+        targetValue = if (animationPlayed) { viewModel.state.value.totalValueOnCategory } else 0f,
         animationSpec = tween(
             durationMillis = 500,
             easing = LinearEasing
@@ -77,7 +74,7 @@ fun NormalCategoryScreen(
                     color = Color.White
                 )
                 Text(
-                    text = "-${animatedTotalExpenseOnCategory.toBigDecimal().setScale(2, RoundingMode.HALF_DOWN)}zł",
+                    text = "${if (viewModel.state.value.category.transactionType == Transaction.TYPE_EXPENSE) "-" else ""}${animatedTotalExpenseOnCategory.toBigDecimal().setScale(2, RoundingMode.HALF_DOWN)}zł",
                     fontSize = 40.sp,
                     color = Color.White,
                     fontWeight = FontWeight.Bold
@@ -94,7 +91,7 @@ fun NormalCategoryScreen(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier.fillMaxHeight()
             ) {
-                items(viewModel.state.value.transactionsExpense) { transaction ->
+                items(viewModel.state.value.transactions) { transaction ->
                     TransactionItem(
                         transaction = transaction,
                         isDetailed = true

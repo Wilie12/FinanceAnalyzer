@@ -20,20 +20,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.financeanalyzer.R
+import com.example.financeanalyzer.feature_finance.domain.model.Transaction
 import com.example.financeanalyzer.feature_finance.presentation.common.FinanceTopBar
 import com.example.financeanalyzer.feature_finance.presentation.main_screen.components.FinanceArc
 import com.example.financeanalyzer.feature_finance.presentation.main_screen.components.TextWithValue
 import com.example.financeanalyzer.feature_finance.presentation.main_screen.components.TransactionItem
 import com.example.financeanalyzer.feature_finance.presentation.util.Screen
-import kotlinx.coroutines.delay
-import java.math.RoundingMode
 
 @Composable
 fun MainScreen(
@@ -158,7 +156,7 @@ fun MainScreen(
                         .weight(4f)
                         .clip(RoundedCornerShape(32.dp))
                         .clickable {
-                            navController.navigate(Screen.IncomeScreen.route)
+                            navController.navigate(Screen.TransactionsScreen.route + "/${Transaction.TYPE_INCOME}")
                         }
                 )
                 Icon(
@@ -185,7 +183,7 @@ fun MainScreen(
                         .weight(4f)
                         .clip(RoundedCornerShape(32.dp))
                         .clickable {
-                            navController.navigate(Screen.ExpenseScreen.route)
+                            navController.navigate(Screen.TransactionsScreen.route + "/${Transaction.TYPE_EXPENSE}")
                         }
                 )
             }

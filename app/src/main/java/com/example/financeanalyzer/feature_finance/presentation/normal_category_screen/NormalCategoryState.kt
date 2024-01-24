@@ -6,8 +6,8 @@ import com.example.financeanalyzer.feature_finance.domain.model.TransactionCateg
 
 data class NormalCategoryState(
     val category: TransactionCategory = Constants.transactionCategories[0],
-    val transactionsExpense: List<Transaction> = emptyList(),
-    val totalExpenseOnCategory: Float = 0f,
+    val transactions: List<Transaction> = emptyList(),
+    val totalValueOnCategory: Float = 0f,
     val currentMonth: String = "",
     val isLoading: Boolean = true
 )

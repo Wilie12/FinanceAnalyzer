@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.financeanalyzer.feature_finance.domain.model.ConstantTransaction
 import com.example.financeanalyzer.feature_finance.domain.model.Transaction
-import com.example.financeanalyzer.feature_finance.domain.use_case.main.TransactionUseCases
+import com.example.financeanalyzer.feature_finance.domain.use_case.main.MainUseCases
 import com.example.financeanalyzer.feature_finance.presentation.util.parseIntToMonthString
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val transactionUseCases: TransactionUseCases
+    private val mainUseCases: MainUseCases
 ) : ViewModel() {
 
     private val _state = mutableStateOf(MainState())
@@ -83,16 +83,16 @@ class MainViewModel @Inject constructor(
 
     private suspend fun getTransactionsFromCurrentMonth() {
 
-        val firstDayOfMonth = transactionUseCases.getFirstDayOfTheMonthInMillis()
+        val firstDayOfMonth = mainUseCases.getFirstDayOfTheMonthInMillis()
 
-        val transactions = transactionUseCases.getTransactions(firstDayOfMonth)
+        val transactions = mainUseCases.getTransactions(firstDayOfMonth)
 
         _state.value = state.value.copy(transactions = transactions)
     }
 
     private suspend fun getConstantTransactions() {
 
-        val constantTransactions = transactionUseCases.getConstantTransactions()
+        val constantTransactions = mainUseCases.getConstantTransactions()
 
         _state.value = state.value.copy(constantTransactions = constantTransactions)
     }

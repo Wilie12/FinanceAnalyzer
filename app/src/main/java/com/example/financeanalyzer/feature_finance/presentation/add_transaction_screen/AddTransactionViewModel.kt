@@ -2,6 +2,7 @@ package com.example.financeanalyzer.feature_finance.presentation.add_transaction
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.financeanalyzer.feature_finance.domain.model.Transaction
@@ -17,6 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddTransactionViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val addTransactionUseCases: AddTransactionUseCases
 ) : ViewModel() {
 
@@ -31,6 +33,8 @@ class AddTransactionViewModel @Inject constructor(
     init {
         setCurrentDate()
         setDateText(state.value.date)
+        setStateTransactionType(checkNotNull(savedStateHandle["transactionType"]))
+        setStateType(checkNotNull(savedStateHandle["type"]))
     }
 
     fun setStateCategoryExpense(category: TransactionCategory) {

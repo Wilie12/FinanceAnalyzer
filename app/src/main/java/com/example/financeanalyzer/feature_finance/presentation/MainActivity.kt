@@ -16,8 +16,7 @@ import androidx.navigation.navArgument
 import com.example.financeanalyzer.feature_finance.presentation.add_transaction_screen.AddTransactionScreen
 import com.example.financeanalyzer.feature_finance.presentation.constant_transaction_edit_screen.ConstantTransactionEditScreen
 import com.example.financeanalyzer.feature_finance.presentation.constant_transactions_screen.ConstantTransactionsScreen
-import com.example.financeanalyzer.feature_finance.presentation.expense_screen.ExpenseScreen
-import com.example.financeanalyzer.feature_finance.presentation.income_screen.IncomeScreen
+import com.example.financeanalyzer.feature_finance.presentation.transactions_screen.TransactionsScreen
 import com.example.financeanalyzer.feature_finance.presentation.main_screen.MainScreen
 import com.example.financeanalyzer.feature_finance.presentation.normal_category_screen.NormalCategoryScreen
 import com.example.financeanalyzer.feature_finance.presentation.util.Screen
@@ -42,13 +41,27 @@ class MainActivity : ComponentActivity() {
                         composable(Screen.MainScreen.route) {
                             MainScreen(navController = navController)
                         }
-                        composable(Screen.ExpenseScreen.route) {
-                            ExpenseScreen(navController = navController)
+                        composable(
+                            route = Screen.TransactionsScreen.route + "/{transactionType}",
+                            arguments = listOf(
+                                navArgument("transactionType") {
+                                    type = NavType.IntType
+                                }
+                            )
+                        ) {
+                            TransactionsScreen(navController = navController)
                         }
-                        composable(Screen.IncomeScreen.route) {
-                            IncomeScreen(navController = navController)
-                        }
-                        composable(Screen.AddTransactionScreen.route) {
+                        composable(
+                            route =Screen.AddTransactionScreen.route + "/{transactionType}/{type}",
+                            arguments = listOf(
+                                navArgument("transactionType") {
+                                    type = NavType.IntType
+                                },
+                                navArgument("type") {
+                                    type = NavType.IntType
+                                }
+                            )
+                        ) {
                             AddTransactionScreen(navController = navController)
                         }
                         composable(

@@ -1,4 +1,4 @@
-package com.example.financeanalyzer.feature_finance.presentation.expense_screen.components
+package com.example.financeanalyzer.feature_finance.presentation.transactions_screen.components
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -20,12 +20,16 @@ import androidx.compose.ui.unit.sp
 import com.example.financeanalyzer.feature_finance.domain.model.CategoryGroupItem
 import com.example.financeanalyzer.R
 import com.example.financeanalyzer.feature_finance.data.util.Constants
+import com.example.financeanalyzer.feature_finance.domain.model.Transaction
 
 @Composable
 fun CategoryItem(
     categoryGroupItem: CategoryGroupItem,
     onClick: (Int) -> Unit
 ) {
+
+    val transactionType = categoryGroupItem.category.transactionType
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -69,7 +73,7 @@ fun CategoryItem(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                text = "-${categoryGroupItem.value}zł",
+                text = "${if (transactionType == Transaction.TYPE_EXPENSE) "-" else ""}${categoryGroupItem.value}zł",
                 fontSize = 22.sp,
                 color = Color.Black,
                 maxLines = 1,
@@ -78,7 +82,7 @@ fun CategoryItem(
             )
             Icon(
                 painter = painterResource(id = R.drawable.ic_back),
-                contentDescription = "Details",
+                contentDescription = "Szczegóły",
                 tint = Color.Black,
                 modifier = Modifier
                     .size(30.dp)

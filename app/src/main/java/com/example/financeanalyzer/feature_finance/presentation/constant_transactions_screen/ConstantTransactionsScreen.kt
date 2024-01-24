@@ -25,6 +25,7 @@ import com.example.financeanalyzer.feature_finance.domain.model.ConstantTransact
 import com.example.financeanalyzer.feature_finance.presentation.common.FinanceTopBar
 import com.example.financeanalyzer.feature_finance.presentation.constant_transactions_screen.components.ConstantTransactionItem
 import com.example.financeanalyzer.feature_finance.presentation.util.Screen
+import com.example.financeanalyzer.feature_finance.presentation.util.TransactionType
 import java.math.RoundingMode
 
 @Composable
@@ -79,7 +80,7 @@ fun ConstantTransactionsScreen(
                     color = Color.White
                 )
                 Text(
-                    text = "-${
+                    text = "${if (viewModel.state.value.transactionType == ConstantTransaction.TYPE_EXPENSE) "-" else ""}${
                         animatedValue.toBigDecimal().setScale(2, RoundingMode.HALF_DOWN)
                     }zł",
                     fontSize = 40.sp,
@@ -119,7 +120,9 @@ fun ConstantTransactionsScreen(
                     shape = RoundedCornerShape(32.dp)
                 )
                 .clip(RoundedCornerShape(32.dp))
-                .clickable { navController.navigate(Screen.AddTransactionScreen.route) }
+                .clickable { navController.navigate(
+                    Screen.AddTransactionScreen.route + "/${viewModel.state.value.transactionType}/${TransactionType.TYPE_CONSTANT}"
+                ) }
                 .padding(8.dp)
         )
     }
