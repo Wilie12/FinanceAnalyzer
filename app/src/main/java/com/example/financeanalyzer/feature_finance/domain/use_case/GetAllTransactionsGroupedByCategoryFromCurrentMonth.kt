@@ -1,4 +1,4 @@
-package com.example.financeanalyzer.feature_finance.domain.use_case.transactions
+package com.example.financeanalyzer.feature_finance.domain.use_case
 
 import com.example.financeanalyzer.feature_finance.domain.model.CategoryGroupItem
 import com.example.financeanalyzer.feature_finance.domain.repository.FinanceRepository
@@ -11,6 +11,9 @@ class GetAllTransactionsGroupedByCategoryFromCurrentMonth(
         firstDayOfMonth: Long,
         transactionType: Int
     ): List<CategoryGroupItem> {
-        return repository.getAllTransactionsGroupedByCategoryFromCurrentMonth(firstDayOfMonth, transactionType)
+        return repository.getAllTransactionsGroupedByCategoryFromCurrentMonth(
+            firstDayOfMonth,
+            transactionType
+        )
     }
 }

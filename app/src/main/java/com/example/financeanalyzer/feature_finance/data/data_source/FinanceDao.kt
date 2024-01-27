@@ -22,8 +22,24 @@ interface FinanceDao {
         transactionType: Int
     ): List<CategoryGroupItem>
 
+    @Query("SELECT category, value FROM transaction_table " +
+            "WHERE date >= :firstDayOfPreviousMonth AND " +
+            "date < :firstDayOfMonth AND transactionType = :transactionType")
+    suspend fun getAllTransactionsGroupedByCategoryFromPreviousMonth(
+        firstDayOfPreviousMonth: Long,
+        firstDayOfMonth: Long,
+        transactionType: Int
+    ): List<CategoryGroupItem>
+
     @Query("SELECT * FROM transaction_table WHERE date >= :firstDayOfMonth ORDER BY date DESC")
     suspend fun getAllTransactionsFromCurrentMonth(firstDayOfMonth: Long): List<Transaction>
+
+    @Query("SELECT * FROM transaction_table " +
+            "WHERE date >= :firstDayOfPreviousMonth AND date < :firstDayOfMonth ORDER BY date DESC")
+    suspend fun getAllTransactionsFromPreviousMonth(
+        firstDayOfPreviousMonth: Long,
+        firstDayOfMonth: Long
+    ): List<Transaction>
 
     @Query("SELECT * FROM transaction_table " +
             "WHERE date >= :firstDayOfMonth AND category = :category ORDER BY date DESC")

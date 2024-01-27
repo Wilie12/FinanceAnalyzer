@@ -25,7 +25,7 @@ import java.math.RoundingMode
 @Composable
 fun FinanceArc(
     maxValue: Float,
-    value: Float,
+    value: Float
 ) {
 
     val percentage by remember {

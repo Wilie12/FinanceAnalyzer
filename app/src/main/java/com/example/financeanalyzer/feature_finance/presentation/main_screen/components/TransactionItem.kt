@@ -83,7 +83,9 @@ fun TransactionItem(
         Text(
             text = "${if (transaction.transactionType == Transaction.TYPE_EXPENSE) "-" else "+"}${transaction.value}zł",
             fontSize = 20.sp,
-            color = Color.Black
+            color = Color.Black,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
         )
     }
 }

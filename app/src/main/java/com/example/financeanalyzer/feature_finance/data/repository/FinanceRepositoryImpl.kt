@@ -9,7 +9,7 @@ import com.example.financeanalyzer.feature_finance.domain.repository.FinanceRepo
 
 class FinanceRepositoryImpl(
     private val financeDao: FinanceDao
-): FinanceRepository {
+) : FinanceRepository {
 
     override suspend fun getConstantTransaction(id: Int): ConstantTransaction {
         return financeDao.getConstantTransaction(id)
@@ -19,11 +19,36 @@ class FinanceRepositoryImpl(
         firstDayOfMonth: Long,
         transactionType: Int
     ): List<CategoryGroupItem> {
-        return financeDao.getAllTransactionsGroupedByCategoryFromCurrentMonth(firstDayOfMonth, transactionType)
+        return financeDao.getAllTransactionsGroupedByCategoryFromCurrentMonth(
+            firstDayOfMonth,
+            transactionType
+        )
+    }
+
+    override suspend fun getAllTransactionsGroupedByCategoryFromPreviousMonth(
+        firstDayOfPreviousMonth: Long,
+        firstDayOfMonth: Long,
+        transactionType: Int
+    ): List<CategoryGroupItem> {
+        return financeDao.getAllTransactionsGroupedByCategoryFromPreviousMonth(
+            firstDayOfPreviousMonth,
+            firstDayOfMonth,
+            transactionType
+        )
     }
 
     override suspend fun getAllTransactionsFromCurrentMonth(firstDayOfMonth: Long): List<Transaction> {
         return financeDao.getAllTransactionsFromCurrentMonth(firstDayOfMonth)
+    }
+
+    override suspend fun getAllTransactionsFromPreviousMonth(
+        firstDayOfPreviousMonth: Long,
+        firstDayOfMonth: Long
+    ): List<Transaction> {
+        return financeDao.getAllTransactionsFromPreviousMonth(
+            firstDayOfPreviousMonth,
+            firstDayOfMonth
+        )
     }
 
     override suspend fun getAllTransactionsFromCurrentMonthByCategory(

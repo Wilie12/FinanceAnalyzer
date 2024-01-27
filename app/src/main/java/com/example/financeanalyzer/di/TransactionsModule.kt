@@ -2,7 +2,7 @@ package com.example.financeanalyzer.di
 
 import com.example.financeanalyzer.feature_finance.domain.repository.FinanceRepository
 import com.example.financeanalyzer.feature_finance.domain.use_case.transactions.TransactionsUseCases
-import com.example.financeanalyzer.feature_finance.domain.use_case.transactions.GetAllTransactionsGroupedByCategoryFromCurrentMonth
+import com.example.financeanalyzer.feature_finance.domain.use_case.GetAllTransactionsGroupedByCategoryFromCurrentMonth
 import com.example.financeanalyzer.feature_finance.domain.use_case.GetConstantTransactions
 import com.example.financeanalyzer.feature_finance.domain.use_case.GetFirstDayOfTheMonthInMillis
 import dagger.Module

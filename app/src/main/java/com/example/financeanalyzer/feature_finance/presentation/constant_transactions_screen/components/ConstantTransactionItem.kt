@@ -29,7 +29,14 @@ fun ConstantTransactionItem(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .border(
+                width = 1.dp,
+                color = Color.Gray,
+                shape = RoundedCornerShape(32.dp)
+            )
+            .padding(8.dp)
     ) {
         Text(
             text = constantTransaction.name,

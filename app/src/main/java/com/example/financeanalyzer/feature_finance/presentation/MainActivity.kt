@@ -14,6 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.financeanalyzer.feature_finance.presentation.add_transaction_screen.AddTransactionScreen
+import com.example.financeanalyzer.feature_finance.presentation.analysis_screen.AnalysisScreen
 import com.example.financeanalyzer.feature_finance.presentation.constant_transaction_edit_screen.ConstantTransactionEditScreen
 import com.example.financeanalyzer.feature_finance.presentation.constant_transactions_screen.ConstantTransactionsScreen
 import com.example.financeanalyzer.feature_finance.presentation.transactions_screen.TransactionsScreen
@@ -93,6 +94,9 @@ class MainActivity : ComponentActivity() {
                             )
                         ) {
                             ConstantTransactionEditScreen(navController = navController)
+                        }
+                        composable(Screen.AnalysisScreen.route) {
+                            AnalysisScreen(navController = navController)
                         }
                     }
                 }

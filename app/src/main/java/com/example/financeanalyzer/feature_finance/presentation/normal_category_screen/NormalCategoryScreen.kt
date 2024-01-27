@@ -25,6 +25,7 @@ import com.example.financeanalyzer.feature_finance.domain.model.Transaction
 import com.example.financeanalyzer.feature_finance.presentation.common.FinanceTopBar
 import com.example.financeanalyzer.feature_finance.presentation.main_screen.components.TransactionItem
 import com.example.financeanalyzer.feature_finance.presentation.util.Screen
+import com.example.financeanalyzer.feature_finance.presentation.util.TransactionType
 import java.math.RoundingMode
 
 @Composable
@@ -103,7 +104,7 @@ fun NormalCategoryScreen(
             }
         }
         Text(
-            text = "Dodaj wydatek",
+            text = "Dodaj ${if (viewModel.state.value.category.transactionType == Transaction.TYPE_INCOME) "przychód" else "wydatek"}",
             fontSize = 20.sp,
             color = Color.White,
             textAlign = TextAlign.Center,
@@ -115,7 +116,7 @@ fun NormalCategoryScreen(
                     shape = RoundedCornerShape(32.dp)
                 )
                 .clip(RoundedCornerShape(32.dp))
-                .clickable { navController.navigate(Screen.AddTransactionScreen.route) }
+                .clickable { navController.navigate(Screen.AddTransactionScreen.route + "/${viewModel.state.value.category.transactionType}/${TransactionType.TYPE_NORMAL}" ) }
                 .padding(8.dp)
         )
     }

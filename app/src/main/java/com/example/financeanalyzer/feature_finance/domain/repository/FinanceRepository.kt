@@ -14,7 +14,18 @@ interface FinanceRepository {
         transactionType: Int
     ): List<CategoryGroupItem>
 
+    suspend fun getAllTransactionsGroupedByCategoryFromPreviousMonth(
+        firstDayOfPreviousMonth: Long,
+        firstDayOfMonth: Long,
+        transactionType: Int
+    ): List<CategoryGroupItem>
+
     suspend fun getAllTransactionsFromCurrentMonth(firstDayOfMonth: Long): List<Transaction>
+
+    suspend fun getAllTransactionsFromPreviousMonth(
+        firstDayOfPreviousMonth: Long,
+        firstDayOfMonth: Long
+    ): List<Transaction>
 
     suspend fun getAllTransactionsFromCurrentMonthByCategory(
         firstDayOfMonth: Long,

@@ -171,7 +171,9 @@ fun MainScreen(
                         )
                         .weight(2f)
                         .clip(RoundedCornerShape(32.dp))
-                        .clickable { }
+                        .clickable {
+                            navController.navigate(Screen.AnalysisScreen.route)
+                        }
                         .padding(8.dp)
                 )
                 Icon(
