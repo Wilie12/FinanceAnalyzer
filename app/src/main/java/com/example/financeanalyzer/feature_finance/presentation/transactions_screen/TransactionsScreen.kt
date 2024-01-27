@@ -28,7 +28,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.financeanalyzer.feature_finance.data.util.Constants
 import com.example.financeanalyzer.feature_finance.domain.model.CategoryGroupItem
-import com.example.financeanalyzer.feature_finance.domain.model.ConstantTransaction
 import com.example.financeanalyzer.feature_finance.domain.model.Transaction
 import com.example.financeanalyzer.feature_finance.presentation.common.FinanceTopBar
 import com.example.financeanalyzer.feature_finance.presentation.transactions_screen.components.CategoryItem
@@ -126,33 +125,49 @@ fun TransactionsScreen(
                 fontSize = 22.sp
             )
             Spacer(modifier = Modifier.height(8.dp))
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .animateContentSize(
-                        animationSpec = tween(
-                            durationMillis = 500,
-                            easing = LinearEasing
-                        )
+            if (viewModel.state.value.categoryGroupItems.isEmpty()) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(0.8f)
+                ) {
+                    Text(
+                        text = "Brak danych",
+                        color = Color.Gray,
+                        textAlign = TextAlign.Center,
+                        fontSize = 18.sp
                     )
-                    .fillMaxHeight(if (animationPlayed) 1f else 0f)
-            ) {
-                item(span = { GridItemSpan(2) }) {
-                    CategoryItem(
-                        categoryGroupItem = CategoryGroupItem(
-                            Constants.transactionCategories.last(),
-                            value = viewModel.state.value.constantValue
-                        )
-                    ) {
-                        navController.navigate(Screen.ConstantTransactionsScreen.route + "/${viewModel.state.value.transactionType}")
-                    }
                 }
-                items(viewModel.state.value.categoryGroupItems) {
-                    CategoryItem(categoryGroupItem = it) { categoryId ->
-                        navController.navigate(Screen.NormalCategoryScreen.route + "/$categoryId")
+            } else {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .animateContentSize(
+                            animationSpec = tween(
+                                durationMillis = 500,
+                                easing = LinearEasing
+                            )
+                        )
+                        .fillMaxHeight(if (animationPlayed) 1f else 0f)
+                ) {
+                    item(span = { GridItemSpan(2) }) {
+                        CategoryItem(
+                            categoryGroupItem = CategoryGroupItem(
+                                Constants.transactionCategories.last(),
+                                value = viewModel.state.value.constantValue
+                            )
+                        ) {
+                            navController.navigate(Screen.ConstantTransactionsScreen.route + "/${viewModel.state.value.transactionType}")
+                        }
+                    }
+                    items(viewModel.state.value.categoryGroupItems) {
+                        CategoryItem(categoryGroupItem = it) { categoryId ->
+                            navController.navigate(Screen.NormalCategoryScreen.route + "/$categoryId")
+                        }
                     }
                 }
             }

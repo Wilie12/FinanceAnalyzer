@@ -98,7 +98,7 @@ fun AnalysisScreen(
                         fontSize = 22.sp
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    if (viewModel.state.value.currentMonthTransactions.isEmpty()) {
+                    if (viewModel.state.value.currentMonthIncome <= 0f) {
                         Text(
                             text = "Brak danych",
                             fontSize = 18.sp,
@@ -121,7 +121,7 @@ fun AnalysisScreen(
                         fontSize = 22.sp
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    if (viewModel.state.value.currentMonthTransactions.isEmpty()) {
+                    if (viewModel.state.value.currentMonthExpense <= 0f) {
                         Text(
                             text = "Brak danych",
                             fontSize = 18.sp,

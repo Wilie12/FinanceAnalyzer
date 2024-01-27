@@ -127,7 +127,9 @@ class AnalysisViewModel @Inject constructor(
             }
         listOfCategoryExpenses.sortBy { it.value }
 
-        _state.value = state.value.copy(currentMonthMostExpenseCategory = listOfCategoryExpenses.last())
+        if (listOfCategoryExpenses.isNotEmpty()) {
+            _state.value = state.value.copy(currentMonthMostExpenseCategory = listOfCategoryExpenses.last())
+        }
     }
 
     private suspend fun getMostIncomeByCategoryFromCurrentMonth() {
@@ -148,6 +150,8 @@ class AnalysisViewModel @Inject constructor(
             }
         listOfCategoryIncomes.sortBy { it.value }
 
-        _state.value = state.value.copy(currentMonthMostIncomeCategory = listOfCategoryIncomes.last())
+        if (listOfCategoryIncomes.isNotEmpty()) {
+            _state.value = state.value.copy(currentMonthMostIncomeCategory = listOfCategoryIncomes.last())
+        }
     }
 }

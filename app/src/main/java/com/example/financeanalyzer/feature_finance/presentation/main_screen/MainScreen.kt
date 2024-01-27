@@ -54,7 +54,6 @@ fun MainScreen(
                 modifier = Modifier.align(Alignment.Center)
             )
         } else {
-
             Column(modifier = Modifier.align(Alignment.TopCenter)) {
                 FinanceTopBar(
                     navController = navController,
@@ -116,22 +115,38 @@ fun MainScreen(
                     fontSize = 22.sp
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    modifier = Modifier
-                        .animateContentSize(
-                            animationSpec = tween(
-                                durationMillis = 500,
-                                easing = LinearEasing
-                            )
+                if (state.transactions.isEmpty()) {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(0.8f)
+                    ) {
+                        Text(
+                            text = "Brak danych",
+                            color = Color.Gray,
+                            textAlign = TextAlign.Center,
+                            fontSize = 18.sp
                         )
-                        .fillMaxHeight(if (animationPlayed) 1f else 0f)
-                ) {
-                    items(state.transactions) { transaction ->
-                        TransactionItem(transaction = transaction)
                     }
-                    item {
-                        Spacer(modifier = Modifier.height(60.dp))
+                } else {
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        modifier = Modifier
+                            .animateContentSize(
+                                animationSpec = tween(
+                                    durationMillis = 500,
+                                    easing = LinearEasing
+                                )
+                            )
+                            .fillMaxHeight(if (animationPlayed) 1f else 0f)
+                    ) {
+                        items(state.transactions) { transaction ->
+                            TransactionItem(transaction = transaction)
+                        }
+                        item {
+                            Spacer(modifier = Modifier.height(60.dp))
+                        }
                     }
                 }
             }
